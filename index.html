@@ -256,7 +256,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* بخش گواهی‌نامه نهایی (A4 افقی) */
+        /* بخش گواهی‌نامه نهایی (A4 افقی با قابلیت مقیاس‌دهی خودکار در موبایل) */
         .certificate-wrapper {
             display: none;
             flex-direction: column;
@@ -264,6 +264,7 @@
             width: 100%;
             max-width: 1000px;
             animation: fadeIn 0.6s ease-in-out;
+            overflow-x: auto;
         }
 
         @keyframes fadeIn {
@@ -284,6 +285,22 @@
             text-align: center;
             overflow: hidden;
             border-radius: 6px;
+            transform-origin: top center;
+        }
+
+        /* ریسپانسیو خودکار گواهی در موبایل و تبلت بدون افت کیفیت خروجی */
+        @media (max-width: 1024px) {
+            .certificate-container {
+                transform: scale(0.65);
+                margin-bottom: -230px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .certificate-container {
+                transform: scale(0.42);
+                margin-bottom: -385px;
+            }
         }
 
         /* کادر تذهیب */
