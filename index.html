@@ -1,0 +1,549 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سامانه دریافت گواهی حضور - اداره آموزش و پرورش استثنایی استان یزد</title>
+    <!-- بارگذاری کتابخانه‌ها -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        @font-face {
+            font-family: 'B Titr';
+            src: url('https://raw.githubusercontent.com/Yazdest/estGovahi/35c687629465ed8476011006302544dece4f3742/B%20Titr%20Bold_0.ttf') format('truetype');
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: 'B Nazanin';
+            src: url('https://raw.githubusercontent.com/Yazdest/estGovahi/35c687629465ed8476011006302544dece4f3742/B-NAZANIN.TTF') format('truetype');
+        }
+        @font-face {
+            font-family: 'IranNastaliq';
+            src: url('https://raw.githubusercontent.com/Yazdest/estGovahi/35c687629465ed8476011006302544dece4f3742/IranNastaliq.ttf') format('truetype');
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'B Nazanin', Tahoma, sans-serif;
+            background-color: #e5e7eb;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* کادر جستجو */
+        .search-box {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .search-box h2 {
+            font-family: 'B Titr', Tahoma, sans-serif;
+            color: #1e3a8a;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 85%;
+            padding: 12px;
+            font-size: 20px;
+            font-family: 'B Nazanin', Tahoma;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .search-box button {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-family: 'B Titr', Tahoma;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-box button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .error-msg {
+            color: #dc2626;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        /* بخش گواهی‌نامه نهایی (ابعاد افقی استاندارد A4) */
+        .certificate-wrapper {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .certificate-container {
+            width: 1000px;
+            height: 707px; /* ابعاد افقی دقیق A4 */
+            background: #ffffff;
+            padding: 30px 55px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        /* کادر تذهیب سنتی */
+        .tazhib-border {
+            position: absolute;
+            top: 12px; bottom: 12px; left: 12px; right: 12px;
+            border: 4px solid #1e3a8a;
+            pointer-events: none;
+        }
+        .tazhib-inner {
+            position: absolute;
+            top: 18px; bottom: 18px; left: 18px; right: 18px;
+            border: 1.5px solid #b45309;
+            pointer-events: none;
+        }
+
+        /* استایل هدر و لوگوها */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 15px;
+        }
+
+        .header-logo {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+        }
+
+        .header-center {
+            flex: 1;
+        }
+
+        .bismillah {
+            font-family: 'IranNastaliq', serif;
+            font-size: 34px;
+            color: #1e3a8a;
+            margin-bottom: 2px;
+        }
+
+        .org-title {
+            font-family: 'B Titr', Tahoma, sans-serif;
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .cert-title {
+            font-family: 'B Titr', Tahoma, sans-serif;
+            font-size: 26px;
+            color: #b45309;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .participant-name {
+            font-family: 'B Titr', Tahoma, sans-serif;
+            font-size: 22px;
+            color: #1e3a8a;
+            padding: 0 4px;
+        }
+
+        .cert-body {
+            font-size: 21px;
+            color: #1f2937;
+            line-height: 2.2;
+            position: relative;
+            z-index: 2;
+        }
+
+        .course-title {
+            font-family: 'IranNastaliq', serif;
+            font-size: 42px;
+            color: #166534;
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 10px;
+            margin-top: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .codes-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        #qrcode canvas, #qrcode img {
+            display: block !important;
+            width: 65px !important;
+            height: 65px !important;
+        }
+
+        #barcode {
+            max-width: 140px;
+            height: 32px;
+        }
+
+        /* بخش امضا و مهر */
+        .signature-seal-wrapper {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .seal-and-sign-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signature-img {
+            height: 150px;
+            max-width: 340px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .seal-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            margin-left: -45px; 
+        }
+
+        /* دکمه دانلود */
+        .action-btns {
+            display: flex;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .download-btn {
+            padding: 14px 35px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'B Titr', Tahoma;
+            font-size: 17px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- فرم دریافت کد ملی -->
+    <div class="search-box" id="searchBox">
+        <h2>سامانه دریافت گواهی حضور</h2>
+        <p>لطفاً کد ملی خود را وارد نمایید:</p>
+        <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" onkeypress="if(event.key === 'Enter') searchCertificate()">
+        <br>
+        <button onclick="searchCertificate()">استعلام و دریافت گواهی</button>
+        <div id="errorMsg" class="error-msg"></div>
+    </div>
+
+    <!-- نمایش کامل گواهی‌نامه نهایی به محض جستجو -->
+    <div class="certificate-wrapper" id="certWrapper">
+        <div class="certificate-container" id="certificate">
+            <div class="tazhib-border"></div>
+            <div class="tazhib-inner"></div>
+
+            <!-- هدر همراه با لوگوها -->
+            <div class="header-content">
+                <img id="logoRight" class="header-logo" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Edarekollogo.jpg" alt="لوگو اداره کل">
+
+                <div class="header-center">
+                    <div class="bismillah">بسمه تعالی</div>
+                    <div class="org-title">
+                        وزارت آموزش و پرورش<br>
+                        اداره کل آموزش و پرورش استان یزد<br>
+                        <strong>اداره آموزش و پرورش استثنایی</strong>
+                    </div>
+                </div>
+
+                <img id="logoLeft" class="header-logo" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Estlogo.jpg" alt="لوگو آموزش استثنایی">
+            </div>
+
+            <div class="cert-title">گواهی حضور در کارگاه آموزشی</div>
+
+            <div class="cert-body">
+                <p style="margin: 5px 0;">
+                    بدین‌وسیله گواهی می‌شود همکار گرامی <span class="participant-name" id="dispName">---</span> با شماره پرسنلی <strong id="dispPersonnel">---</strong>
+                </p>
+                <p style="margin: 5px 0;">
+                    در تاریخ <strong>۱۴۰۵/۰۸/۲۵</strong> به مدت <strong>۶ ساعت</strong> در کارگاه آموزشی با عنوان 
+                    <span class="course-title">« کاربرد هوش مصنوعی در آموزش »</span> حضور یافته است.
+                </p>
+            </div>
+
+            <div class="footer-content">
+                <!-- بخش بارکد و QR Code -->
+                <div class="codes-box">
+                    <div id="qrcode"></div>
+                    <svg id="barcode"></svg>
+                </div>
+
+                <!-- عکس امضا و مهر اداره -->
+                <div class="signature-seal-wrapper">
+                    <div class="seal-and-sign-box">
+                        <img id="sealImg" class="seal-img" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/EstMohrPicture.png" alt="مهر رسمی اداره">
+                        <img id="signatureImg" class="signature-img" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Emza.png" alt="امضا رئیس اداره">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-btns">
+            <button class="download-btn" onclick="downloadAsImage()">📸 دانلود تصویر افقی گواهی (PNG)</button>
+        </div>
+    </div>
+
+    <script>
+        const rawData = `nationalCode,fullName,personnelCode
+4431693505,بی بی طیبه حیدری,10616800
+4432543361,راضیه السادات سالاری,11146743
+4449667867,مژگان حاجی احمدی اردکانی,11287304
+4431849841,مهدیه گلشن,11606853
+4431728376,آزیتا قاسم پور,11671464
+4431849851,ملیحه انتظاری هراتی,11707011
+4431785507,اعظم شاکری بنادکوکی,11707530
+4432160911,فاطمه شفیع نادری,11710928
+4432856408,فاطمه صادقیان,11710995
+4430489564,سیده مریم شفیعی,11711202
+4432168300,طاهره ابوالقاسمی,11711311
+4432329241,مریم حیدری مریم آبادی,11711360
+4431792619,مهدیه محمدی خرم دشتی,11711428
+4432194689,فاطمه عابدی,11711584
+4432103527,الهام حاجی حیدری,11711683
+4431835697,طاهره سالاری گوپنایی,11711840
+4431980311,زهرا زارع مهریزی,11711873
+4432598379,زینب شاه محمدی,11711881
+4430486875,فاطمه زارع حسین آبادی,11711915
+4431940989,اعظم ابویی مهریزی,11712038
+4431776478,وحیده نادری,11712160
+4432029511,زهرا صادقی پورمهریزی,11712210
+4432087599,فاطمه رضائی,11712293
+4432085731,فاطمه بیدکی,11712335
+4431796126,فرزانه زارعیان مهریزی,11712343
+4432247493,مطهره دهقان بنادکی,11712418
+4431922379,طاهره زارع بیدکی,11712525
+4432145325,ملیحه بیدکی,11712541
+4432095941,طاهره زارع زاده مهریزی,11712566
+4432299863,زهره کریمی,11712582
+4431969243,مریم بیدکی,11712590
+4432096644,سمیه حاجی ابراهیمی مهریزی,11712616
+4431846433,سمیه زارع مهریزی,11712632
+4432007810,فاطمه دهقانی مهریزی,11712715
+4431791833,حکیمه نادری,11712855
+4431763783,مریم فلاح خرم دشتی,11712897
+4432244461,عاطفه طباطبائی,11712988
+4432100803,فهیمه دهقان بنادکی,11713028
+4431780823,اکرم السادات حسینی نسب,11713044
+4432096873,فهیمه زارع مهرجردی,11713176
+4432223845,راضیه طباطبائی,11713218
+4432219759,سمیه زارع مهریزی,11713382
+4432039231,زهره بیدکی,11713580
+4431976071,زهرا دهقان نژاد مهریزی,11713606
+4431853618,نرجس زارع مهریزی,11713630
+4432029678,الهام زارع بیدکی,11713671
+4431899121,راضیه ابویی مهریزی,11713689
+4432360297,مطهره شفیعی,11713739
+4432174319,فاطمه بیدکی مهریزی,11713754
+4432332153,زهره دهقانی بنادکی,11713846
+4432152641,اکرم دهقانی مهریزی,11713986
+4432194697,نجمه عابدی,11714042
+4432361668,عاطفه زارع بیدکی,11714067
+4432221291,زهرا زارع منشادی,11714091
+4432087610,فاطمه زارع زاده مهریزی,11714109
+4432332854,مریم حیدری,11714158
+4432321488,طاهره زارع بیدکی,11714182
+4431978252,ملیحه مطهری نیا,11714208
+4432115169,زینب ابویی مهریزی,11714240
+4432180424,مطهره دهقان بنادکی,11714257
+4432435556,سمیه حسینی یزدی,11714307
+4432193569,فاطمه بیدکی,11714349
+4431952219,الهه نادری مهریزی,11714372
+4432306721,زهرا شفیعی پور,11714380
+4432204617,فاطمه بیدکی,11714398
+4432148723,سکینه زارع مهریزی,11714414
+4432386121,مرضیه ابویی مهریزی,11714521
+4432308730,معصومه مطهری نیا,11714539
+4432274471,طاهره حیدری,11714554
+4432288020,زهرا حیدری بیدکی,11714570
+4432497675,فاطمه زارع منشادی,11714588
+4432230182,زهرا بیدکی,11714653
+4432207901,عفت دهقانی زاده,11714661
+4432371728,زهرا ابویی مهریزی,11714695
+4432252187,مریم فلاح مهریزی,11714737
+4432370217,زهره زارع زاده مهریزی,11714752
+4432442463,الهه دهقان نژاد مهریزی,11714786
+4432470701,فاطمه ابویی مهریزی,11714810
+4432420990,عاطفه زارع بیدکی,11714828
+4432223837,فاطمه طباطبائی,11714836
+4432314544,فاطمه ابویی مهریزی,11714885
+4432205567,فاطمه دهقانی زاده,11714927
+4432389651,زهرا زارع بیدکی,11714968
+4432400345,فرزانه زارع بیدکی,11715015
+4432573211,وجیهه بیدکی,11715031
+4420807717,محدثه ثقفی,94026787
+4420843217,علیرضا میرعلائی,94026999
+4420923911,ریحانه شیر غلامی,94070207
+4420864141,فاطمه قاسمی سورک,94070272
+4420912529,فاطمه سلیمی,94071097
+4420859768,محمد حجت,94072239
+4432548223,زینب بیکی,96254389
+5439947477,عذرا موسوی,96286157
+0385965508,مریم قطب زاده,96286341
+5529951147,الهه زارع بزگ آبادی,96398500`;
+
+        let participants = [];
+        let currentNationalCode = "";
+        let currentFullName = "";
+
+        const lines = rawData.split('\n');
+        for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(',');
+            if (cols.length >= 2) {
+                participants.push({
+                    nationalCode: cols[0].trim(),
+                    fullName: cols[1].trim(),
+                    personnelCode: cols[2] ? cols[2].trim() : '---'
+                });
+            }
+        }
+
+        function normalizeDigits(str) {
+            if (!str) return '';
+            const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+            const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+            for (let i = 0; i < 10; i++) {
+                str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+            }
+            return str.trim();
+        }
+
+        function searchCertificate(targetCode = null) {
+            let inputCode = targetCode || document.getElementById('nationalCodeInput').value;
+            inputCode = normalizeDigits(inputCode);
+            const errorDiv = document.getElementById('errorMsg');
+            
+            if (!inputCode) {
+                errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
+                return;
+            }
+
+            const found = participants.find(p => p.nationalCode === inputCode);
+
+            if (found) {
+                errorDiv.innerText = '';
+                currentNationalCode = found.nationalCode;
+                currentFullName = found.fullName;
+                
+                document.getElementById('dispName').innerText = found.fullName;
+                document.getElementById('dispPersonnel').innerText = found.personnelCode;
+                
+                document.getElementById('searchBox').style.display = 'none';
+                document.getElementById('certWrapper').style.display = 'flex';
+
+                document.getElementById("qrcode").innerHTML = "";
+                new QRCode(document.getElementById("qrcode"), {
+                    text: window.location.origin + window.location.pathname + "?code=" + found.nationalCode,
+                    width: 65,
+                    height: 65
+                });
+                
+                JsBarcode("#barcode", "YZD-AI-" + found.nationalCode, { 
+                    format: "CODE128", 
+                    width: 1.3, 
+                    height: 30, 
+                    displayValue: true,
+                    fontSize: 10
+                });
+
+            } else {
+                if (!targetCode) {
+                    errorDiv.innerText = 'کد ملی وارد شده در لیست فراگیران دوره یافت نشد.';
+                }
+            }
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+            if (codeParam) {
+                searchCertificate(codeParam);
+            }
+        };
+
+        function downloadAsImage() {
+            const certElement = document.getElementById('certificate');
+            
+            html2canvas(certElement, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                width: 1000,
+                height: 707
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `گواهی_حضور_${currentFullName}_${currentNationalCode}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
