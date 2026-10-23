@@ -264,7 +264,6 @@
             width: 100%;
             max-width: 1000px;
             animation: fadeIn 0.6s ease-in-out;
-            overflow-x: auto;
         }
 
         @keyframes fadeIn {
@@ -288,7 +287,7 @@
             transform-origin: top center;
         }
 
-        /* ریسپانسیو خودکار گواهی در موبایل و تبلت بدون افت کیفیت خروجی */
+        /* ریسپانسیو خودکار گواهی در موبایل و تبلت */
         @media (max-width: 1024px) {
             .certificate-container {
                 transform: scale(0.65);
@@ -881,6 +880,13 @@
                 alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. لطفاً چند لحظه صبر کنید.');
                 return;
             }
+
+            // خنثی‌سازی موقت مقیاس‌دهی موبایل برای کپچر کردن در ابعاد واقعی اصلی (1000x707)
+            const originalTransform = certElement.style.transform;
+            const originalMargin = certElement.style.marginBottom;
+            certElement.style.transform = 'none';
+            certElement.style.marginBottom = '0';
+
             html2canvas(certElement, {
                 scale: 2,
                 useCORS: true,
@@ -888,10 +894,18 @@
                 width: 1000,
                 height: 707
             }).then(canvas => {
+                // بازگردانی حالت ریسپانسیو پس از اتمام کپچر
+                certElement.style.transform = originalTransform;
+                certElement.style.marginBottom = originalMargin;
+
                 const link = document.createElement('a');
                 link.download = `گواهی_${selectedRecord.fullName}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
+            }).catch(err => {
+                certElement.style.transform = originalTransform;
+                certElement.style.marginBottom = originalMargin;
+                console.error(err);
             });
         }
 
@@ -902,6 +916,12 @@
                 return;
             }
 
+            // خنثی‌سازی موقت مقیاس‌دهی موبایل برای کپچر کردن در ابعاد واقعی اصلی (1000x707)
+            const originalTransform = certElement.style.transform;
+            const originalMargin = certElement.style.marginBottom;
+            certElement.style.transform = 'none';
+            certElement.style.marginBottom = '0';
+
             html2canvas(certElement, {
                 scale: 2,
                 useCORS: true,
@@ -909,6 +929,10 @@
                 width: 1000,
                 height: 707
             }).then(canvas => {
+                // بازگردانی حالت ریسپانسیو پس از اتمام کپچر
+                certElement.style.transform = originalTransform;
+                certElement.style.marginBottom = originalMargin;
+
                 try {
                     const imgData = canvas.toDataURL('image/jpeg', 1.0);
                     const { jsPDF } = window.jspdf;
@@ -921,6 +945,10 @@
                     console.error(e);
                     alert('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر PNG» استفاده کنید.');
                 }
+            }).catch(err => {
+                certElement.style.transform = originalTransform;
+                certElement.style.marginBottom = originalMargin;
+                console.error(err);
             });
         }
     </script>
