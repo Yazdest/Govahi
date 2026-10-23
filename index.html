@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سامانه دریافت گواهی حضور - اداره آموزش و پرورش استثنایی استان یزد</title>
+    <title>سامانه جامع گواهی‌نامه‌ها - اداره آموزش و پرورش استثنایی استان یزد</title>
     <!-- بارگذاری کتابخانه‌ها -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -31,78 +31,138 @@
 
         body {
             font-family: 'B Nazanin', Tahoma, sans-serif;
-            background-color: #e5e7eb;
+            background-color: #f3f4f6;
             margin: 0;
-            padding: 15px;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             min-height: 100vh;
         }
 
-        /* نوار وضعیت اعتبارسنجی بالای صفحه */
-        .verification-badge {
-            display: none;
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1.5px solid #34d399;
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-family: 'B Titr', Tahoma;
-            font-size: 14px;
-            text-align: center;
-            max-width: 1000px;
+        .main-container {
             width: 100%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
-        /* کادر جستجو */
+        /* هدر اصلی معرفی سامانه جامع */
+        .portal-header {
+            background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+            color: white;
+            width: 100%;
+            padding: 25px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.25);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-header h1 {
+            font-family: 'B Titr', Tahoma, sans-serif;
+            font-size: 22px;
+            margin: 0 0 8px 0;
+        }
+
+        .portal-header p {
+            font-size: 15px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* کارت آماری تک و شاخص */
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .stat-card .stat-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-title {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 3px;
+        }
+
+        .stat-card .stat-value {
+            font-family: 'B Titr', Tahoma;
+            font-size: 15px;
+            color: #1e3a8a;
+        }
+
+        /* کادر استعلام */
         .search-box {
             background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            padding: 35px 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             text-align: center;
-            max-width: 480px;
             width: 100%;
+            border: 1px solid #e5e7eb;
         }
 
         .search-box h2 {
             font-family: 'B Titr', Tahoma, sans-serif;
             color: #1e3a8a;
             font-size: 20px;
+            margin-top: 0;
             margin-bottom: 15px;
         }
 
         .search-box input {
-            width: 90%;
+            width: 85%;
+            max-width: 380px;
             padding: 12px;
             font-size: 18px;
             font-family: 'B Nazanin', Tahoma;
             border: 2px solid #d1d5db;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             outline: none;
             letter-spacing: 2px;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
         }
 
         .search-box button {
             background-color: #1e3a8a;
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 13px 35px;
             font-size: 16px;
             font-family: 'B Titr', Tahoma;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
 
         .search-box button:hover {
@@ -116,7 +176,54 @@
             font-size: 15px;
         }
 
-        /* انیمیشن لودینگ (اسپینر) */
+        /* راهنمای دریافت */
+        .guide-box {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border: 1px solid #e5e7eb;
+        }
+
+        .guide-box h3 {
+            font-family: 'B Titr', Tahoma;
+            font-size: 16px;
+            color: #374151;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .steps-wrapper {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .step-item {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-family: 'B Titr', Tahoma;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px auto;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* انیمیشن اسپینر */
         .spinner {
             display: inline-block;
             width: 18px;
@@ -132,7 +239,24 @@
             to { transform: rotate(360deg); }
         }
 
-        /* بخش گواهی‌نامه نهایی (ابعاد افقی استاندارد A4) */
+        /* نوار اعتبارسنجی بالای گواهی */
+        .verification-badge {
+            display: none;
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1.5px solid #34d399;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-family: 'B Titr', Tahoma;
+            font-size: 15px;
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* بخش گواهی‌نامه نهایی (A4 افقی) */
         .certificate-wrapper {
             display: none;
             flex-direction: column;
@@ -162,7 +286,7 @@
             border-radius: 6px;
         }
 
-        /* کادر تذهیب سنتی */
+        /* کادر تذهیب */
         .tazhib-border {
             position: absolute;
             top: 12px; bottom: 12px; left: 12px; right: 12px;
@@ -176,7 +300,7 @@
             pointer-events: none;
         }
 
-        /* استایل هدر و لوگوها */
+        /* هدر گواهی */
         .header-content {
             display: flex;
             justify-content: space-between;
@@ -199,7 +323,6 @@
             object-fit: contain;
         }
 
-        /* کادر شماره و تاریخ بالا سمت چپ */
         .header-meta {
             font-family: 'B Nazanin', Tahoma, sans-serif;
             font-size: 13px;
@@ -299,7 +422,6 @@
             height: 30px;
         }
 
-        /* بخش امضا و مهر */
         .signature-seal-wrapper {
             text-align: center;
             display: flex;
@@ -333,7 +455,6 @@
             margin-left: -75px; 
         }
 
-        /* پنل دکمه‌ها و عملیات پیشرفته */
         .action-container {
             display: flex;
             flex-direction: column;
@@ -390,26 +511,78 @@
             transition: background 0.2s;
         }
         .btn-secondary:hover { background-color: #374151; }
+
+        .portal-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .steps-wrapper { flex-direction: column; gap: 15px; }
+        }
     </style>
 </head>
 <body>
 
     <!-- نوار اعتبارسنجی آنلاین -->
     <div id="verificationBadge" class="verification-badge">
-        ✅ اصالت این گواهی توسط اداره آموزش و پرورش استثنایی استان یزد تأیید می‌شود و معتبر است.
+        ✅ اصالت این گواهی‌نامه توسط اداره آموزش و پرورش استثنایی استان یزد تأیید می‌شود و معتبر است.
     </div>
 
-    <!-- فرم دریافت کد ملی -->
-    <div class="search-box" id="searchBox">
-        <h2>سامانه دریافت گواهی حضور</h2>
-        <p>لطفاً کد ملی خود را وارد نمایید:</p>
-        <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" onkeypress="if(event.key === 'Enter') handleSearch()">
-        <br>
-        <button id="searchBtn" type="button" onclick="handleSearch()">
-            <span id="btnText">استعلام و دریافت گواهی</span>
-            <span id="btnSpinner" class="spinner"></span>
-        </button>
-        <div id="errorMsg" class="error-msg"></div>
+    <!-- بخش ورودی اصلی صفحه -->
+    <div class="main-container" id="portalHome">
+        
+        <!-- هدر جامع -->
+        <div class="portal-header">
+            <h1>سامانه جامع صدور و اعتبارسنجی گواهی‌نامه‌ها</h1>
+            <p>اداره آموزش و پرورش استثنایی استان یزد</p>
+        </div>
+
+        <!-- کارت اصالت مدارک -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🛡️</div>
+                <div class="stat-title">اصالت مدارک</div>
+                <div class="stat-value">تأییدیه دیجیتال (QR)</div>
+            </div>
+        </div>
+
+        <!-- کادر استعلام -->
+        <div class="search-box" id="searchBox">
+            <h2>استعلام و دریافت گواهی‌نامه</h2>
+            <p style="color:#4b5563; font-size:15px; margin-bottom:15px;">لطفاً کد ملی خود را بدون خط تیره وارد نمایید:</p>
+            <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" onkeypress="if(event.key === 'Enter') handleSearch()">
+            <br>
+            <button id="searchBtn" type="button" onclick="handleSearch()">
+                <span id="btnText">🔍 استعلام و دریافت گواهی</span>
+                <span id="btnSpinner" class="spinner"></span>
+            </button>
+            <div id="errorMsg" class="error-msg"></div>
+        </div>
+
+        <!-- راهنما -->
+        <div class="guide-box">
+            <h3>راهنمای سریع دریافت گواهی</h3>
+            <div class="steps-wrapper">
+                <div class="step-item">
+                    <div class="step-number">۱</div>
+                    ورود کد ملی ۱۰ رقمی شرکت‌کننده
+                </div>
+                <div class="step-item">
+                    <div class="step-number">۲</div>
+                    مشاهده آنلاین گواهی و بررسی صحت اطلاعات
+                </div>
+                <div class="step-item">
+                    <div class="step-number">۳</div>
+                    دانلود تصویر PNG یا فایل رسمی PDF
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- نمایش گواهی‌نامه نهایی -->
@@ -418,7 +591,7 @@
             <div class="tazhib-border"></div>
             <div class="tazhib-inner"></div>
 
-            <!-- هدر همراه با لوگوها و اطلاعات اداری (شماره و تاریخ) -->
+            <!-- هدر گواهی -->
             <div class="header-content">
                 <div class="header-logo-box">
                     <img id="logoRight" class="header-logo" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Edarekollogo.jpg" alt="لوگو اداره کل">
@@ -435,7 +608,6 @@
 
                 <div class="header-logo-box">
                     <img id="logoLeft" class="header-logo" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Estlogo.jpg" alt="لوگو آموزش استثنایی">
-                    <!-- کادر شماره و تاریخ در بالا سمت چپ، زیر لوگو -->
                     <div class="header-meta">
                         <div>تاریخ: <strong id="dispDocDate">---</strong></div>
                         <div>شماره: <strong id="dispDocNumber">---</strong></div>
@@ -443,7 +615,8 @@
                 </div>
             </div>
 
-            <div class="cert-title">گواهی حضور در مسابقات ورزشی</div>
+            <!-- عنوان پویا (بر اساس نوع دوره) -->
+            <div class="cert-title" id="dispCertMainTitle">گواهی حضور</div>
 
             <div class="cert-body">
                 <p style="margin: 5px 0;">
@@ -456,13 +629,11 @@
             </div>
 
             <div class="footer-content">
-                <!-- بارکد و QR Code -->
                 <div class="codes-box">
                     <div id="qrcode"></div>
                     <svg id="barcode"></svg>
                 </div>
 
-                <!-- امضا و مهر اداره -->
                 <div class="signature-seal-wrapper">
                     <div class="seal-and-sign-box">
                         <img id="sealImg" class="seal-img" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/EstMohrPicture.png" alt="مهر رسمی اداره">
@@ -472,7 +643,6 @@
             </div>
         </div>
 
-        <!-- دکمه‌های عملیاتی پیشرفته -->
         <div class="action-container">
             <div class="action-btns">
                 <button class="btn-secondary" type="button" onclick="resetSearch()">🔍 جستجوی مجدد</button>
@@ -482,87 +652,92 @@
         </div>
     </div>
 
+    <!-- فوتر انتهای صفحه -->
+    <div class="portal-footer">
+        کلیه حقوق این سامانه متعلق به <strong>اداره آموزش و پرورش استثنایی استان یزد</strong> می‌باشد.
+    </div>
+
     <script>
-        // بانک اطلاعاتی ۷۳ همکار مسابقات ورزشی
+        // بانک اطلاعاتی شرکت‌کنندگان
         const allRecords = [
-            { nationalCode: "4420455861", fullName: "فاطمه رمضان پور", personnelCode: "44031447", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/20", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "44030327", fullName: "سیده سمیرا جلالزاده", personnelCode: "44030327", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/20", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431687688", fullName: "شکوفه کلانتر", personnelCode: "73143591", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420069831", fullName: "سمیرا رنجبر بافقی", personnelCode: "72507043", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4469960047", fullName: "مطهره حائری مهریزی", personnelCode: "44031460", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4433593745", fullName: "فرزانه کریمی نیا", personnelCode: "72506108", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "3149569621", fullName: "اعظم پورحسینی", personnelCode: "93968866", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4450103327", fullName: "فاطمه السادات دهقانی", personnelCode: "44031423", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432406275", fullName: "مرضیه صفرزاده", personnelCode: "72505723", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432501898", fullName: "آزاده فتوحی", personnelCode: "44981163", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4433104302", fullName: "آزاده امین", personnelCode: "72580757", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4480064982", fullName: "اعظم برزگر بفروئی", personnelCode: "12795863", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "44030393", fullName: "زهرا روستایی کوچه باغی", personnelCode: "44030393", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "44030366", fullName: "طاهره رحمانی مدوار", personnelCode: "44030366", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420604190", fullName: "فائزه رمضان پور", personnelCode: "44031205", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4489944608", fullName: "لیلا زارع شاهی", personnelCode: "44021261", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "2570157627", fullName: "سعیده کریمی", personnelCode: "44030383", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432496282", fullName: "زکیه بهشتی پور", personnelCode: "11807974", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4433269743", fullName: "مرضیه دهقان نیری", personnelCode: "93967752", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420967056", fullName: "فاطمه دیهیم", personnelCode: "44980918", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431782290", fullName: "مهدیه دهقانی گزستان", personnelCode: "11710951", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431871221", fullName: "مرضیه السادات حسینی", personnelCode: "11713507", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420888204", fullName: "زهرا دهقانی", personnelCode: "94071378", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420986794", fullName: "طاهره فلاح تفتی", personnelCode: "93968601", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420807717", fullName: "محدثه ثقفی", personnelCode: "94026787", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420831612", fullName: "عصمت کارگر", personnelCode: "94026605", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432168300", fullName: "طاهره ابوالقاسمی", personnelCode: "11711311", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431969243", fullName: "مریم بیدکی", personnelCode: "11712590", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432148723", fullName: "سکینه زارع مهریزی", personnelCode: "11714414", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432420990", fullName: "عاطفه زارع بیدکی", personnelCode: "11714828", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431940989", fullName: "اعظم ابویی مهریزی", personnelCode: "11712038", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432360297", fullName: "مطهره شفیعی", personnelCode: "11713739", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432230182", fullName: "زهرا بیدکی", personnelCode: "11714653", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432145325", fullName: "ملیحه بیدکی", personnelCode: "11712541", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432095941", fullName: "طاهره زارع زاده مهریزی", personnelCode: "11712566", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432087599", fullName: "فاطمه رضائی", personnelCode: "11712293", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432039231", fullName: "زهره بیدکی", personnelCode: "11713580", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432288020", fullName: "زهرا حیدری بیدکی", personnelCode: "11714570", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432100803", fullName: "فهیمه دهقان بنادکی", personnelCode: "11713028", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431849841", fullName: "مهدیه گلشن", personnelCode: "11606853", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432029511", fullName: "زهرا صادقی پورمهریزی", personnelCode: "11712210", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432386121", fullName: "مرضیه ابویی مهریزی", personnelCode: "11714521", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431899121", fullName: "راضیه ابویی مهریزی", personnelCode: "11713689", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432207901", fullName: "عفت دهقانی زاده", personnelCode: "11714661", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432370217", fullName: "زهره زارع زاده مهریزی", personnelCode: "11714752", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432314544", fullName: "فاطمه ابویی مهریزی", personnelCode: "11714885", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431952219", fullName: "الهه نادری مهریزی", personnelCode: "11714372", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432274471", fullName: "طاهره حیدری", personnelCode: "11714554", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432332153", fullName: "زهره دهقانی بنادکی", personnelCode: "11713846", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432194697", fullName: "نجمه عابدی", personnelCode: "11714042", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432115169", fullName: "زینب ابویی مهریزی", personnelCode: "11714240", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432205567", fullName: "فاطمه دهقانی زاده", personnelCode: "11714927", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432371728", fullName: "زهرا ابویی مهریزی", personnelCode: "11714695", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432389651", fullName: "زهرا زارع بیدکی", personnelCode: "11714968", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432252187", fullName: "مریم فلاح مهریزی", personnelCode: "11714737", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432400345", fullName: "فرزانه زارع بیدکی", personnelCode: "11715015", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432470701", fullName: "فاطمه ابویی مهریزی", personnelCode: "11714810", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432087610", fullName: "فاطمه زارع زاده مهریزی", personnelCode: "11714109", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432174319", fullName: "فاطمه بیدکی مهریزی", personnelCode: "11713754", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432442463", fullName: "الهه دهقان نژاد مهریزی", personnelCode: "11714786", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432223837", fullName: "فاطمه طباطبائی", personnelCode: "11714836", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432223845", fullName: "راضیه طباطبائی", personnelCode: "11713218", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432180424", fullName: "مطهره دهقان بنادکی", personnelCode: "11714257", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432152641", fullName: "اکرم دهقانی مهریزی", personnelCode: "11713986", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432308730", fullName: "معصومه مطهری نیا", personnelCode: "11714539", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432332854", fullName: "مریم حیدری", personnelCode: "11714158", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4432221291", fullName: "زهرا زارع منشادی", personnelCode: "11714091", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4431976071", fullName: "زهرا دهقان نژاد مهریزی", personnelCode: "11713606", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "1170787274", fullName: "جواد حجر", personnelCode: "44031418", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4489911424", fullName: "محمدرضا شیرغلامی", personnelCode: "96256664", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "2296192807", fullName: "رسول عمیقی ابرکویی", personnelCode: "73162031", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4433617903", fullName: "محمدسعید سالاروندیان", personnelCode: "72506605", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4449667867", fullName: "مژگان حاجی احمدی اردکانی", personnelCode: "11287304", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4433359467", fullName: "محمدرضا زکی زاده چایگانی", personnelCode: "12478830", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "5430064645", fullName: "سید محسن طباطبایی زاده", personnelCode: "44980635", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420989149", fullName: "محسن مشایخی", personnelCode: "44981005", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4433322921", fullName: "حمیدرضا حدادی ندوشن", personnelCode: "93991063", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
-            { nationalCode: "4420843217", fullName: "علیرضا میرعلائی", personnelCode: "94026999", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" }
+            { nationalCode: "4420455861", fullName: "فاطمه رمضان پور", personnelCode: "44031447", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/20", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "44030327", fullName: "سیده سمیرا جلالزاده", personnelCode: "44030327", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/20", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431687688", fullName: "شکوفه کلانتر", personnelCode: "73143591", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420069831", fullName: "سمیرا رنجبر بافقی", personnelCode: "72507043", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4469960047", fullName: "مطهره حائری مهریزی", personnelCode: "44031460", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4433593745", fullName: "فرزانه کریمی نیا", personnelCode: "72506108", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "3149569621", fullName: "اعظم پورحسینی", personnelCode: "93968866", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4450103327", fullName: "فاطمه السادات دهقانی", personnelCode: "44031423", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432406275", fullName: "مرضیه صفرزاده", personnelCode: "72505723", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432501898", fullName: "آزاده فتوحی", personnelCode: "44981163", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4433104302", fullName: "آزاده امین", personnelCode: "72580757", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4480064982", fullName: "اعظم برزگر بفروئی", personnelCode: "12795863", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "44030393", fullName: "زهرا روستایی کوچه باغی", personnelCode: "44030393", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "44030366", fullName: "طاهره رحمانی مدوار", personnelCode: "44030366", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420604190", fullName: "فائزه رمضان پور", personnelCode: "44031205", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4489944608", fullName: "لیلا زارع شاهی", personnelCode: "44021261", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "2570157627", fullName: "سعیده کریمی", personnelCode: "44030383", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432496282", fullName: "زکیه بهشتی پور", personnelCode: "11807974", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4433269743", fullName: "مرضیه دهقان نیری", personnelCode: "93967752", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420967056", fullName: "فاطمه دیهیم", personnelCode: "44980918", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431782290", fullName: "مهدیه دهقانی گزستان", personnelCode: "11710951", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431871221", fullName: "مرضیه السادات حسینی", personnelCode: "11713507", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420888204", fullName: "زهرا دهقانی", personnelCode: "94071378", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420986794", fullName: "طاهره فلاح تفتی", personnelCode: "93968601", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420807717", fullName: "محدثه ثقفی", personnelCode: "94026787", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420831612", fullName: "عصمت کارگر", personnelCode: "94026605", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432168300", fullName: "طاهره ابوالقاسمی", personnelCode: "11711311", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431969243", fullName: "مریم بیدکی", personnelCode: "11712590", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432148723", fullName: "سکینه زارع مهریزی", personnelCode: "11714414", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432420990", fullName: "عاطفه زارع بیدکی", personnelCode: "11714828", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431940989", fullName: "اعظم ابویی مهریزی", personnelCode: "11712038", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432360297", fullName: "مطهره شفیعی", personnelCode: "11713739", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432230182", fullName: "زهرا بیدکی", personnelCode: "11714653", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432145325", fullName: "ملیحه بیدکی", personnelCode: "11712541", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432095941", fullName: "طاهره زارع زاده مهریزی", personnelCode: "11712566", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432087599", fullName: "فاطمه رضائی", personnelCode: "11712293", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432039231", fullName: "زهره بیدکی", personnelCode: "11713580", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432288020", fullName: "زهرا حیدری بیدکی", personnelCode: "11714570", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432100803", fullName: "فهیمه دهقان بنادکی", personnelCode: "11713028", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431849841", fullName: "مهدیه گلشن", personnelCode: "11606853", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432029511", fullName: "زهرا صادقی پورمهریزی", personnelCode: "11712210", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432386121", fullName: "مرضیه ابویی مهریزی", personnelCode: "11714521", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431899121", fullName: "راضیه ابویی مهریزی", personnelCode: "11713689", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432207901", fullName: "عفت دهقانی زاده", personnelCode: "11714661", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432370217", fullName: "زهره زارع زاده مهریزی", personnelCode: "11714752", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432314544", fullName: "فاطمه ابویی مهریزی", personnelCode: "11714885", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431952219", fullName: "الهه نادری مهریزی", personnelCode: "11714372", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432274471", fullName: "طاهره حیدری", personnelCode: "11714554", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432332153", fullName: "زهره دهقانی بنادکی", personnelCode: "11713846", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432194697", fullName: "نجمه عابدی", personnelCode: "11714042", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432115169", fullName: "زینب ابویی مهریزی", personnelCode: "11714240", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432205567", fullName: "فاطمه دهقانی زاده", personnelCode: "11714927", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432371728", fullName: "زهرا ابویی مهریزی", personnelCode: "11714695", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432389651", fullName: "زهرا زارع بیدکی", personnelCode: "11714968", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432252187", fullName: "مریم فلاح مهریزی", personnelCode: "11714737", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432400345", fullName: "فرزانه زارع بیدکی", personnelCode: "11715015", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432470701", fullName: "فاطمه ابویی مهریزی", personnelCode: "11714810", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432087610", fullName: "فاطمه زارع زاده مهریزی", personnelCode: "11714109", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432174319", fullName: "فاطمه بیدکی مهریزی", personnelCode: "11713754", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432442463", fullName: "الهه دهقان نژاد مهریزی", personnelCode: "11714786", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432223837", fullName: "فاطمه طباطبائی", personnelCode: "11714836", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432223845", fullName: "راضیه طباطبائی", personnelCode: "11713218", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432180424", fullName: "مطهره دهقان بنادکی", personnelCode: "11714257", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432152641", fullName: "اکرم دهقانی مهریزی", personnelCode: "11713986", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432308730", fullName: "معصومه مطهری نیا", personnelCode: "11714539", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432332854", fullName: "مریم حیدری", personnelCode: "11714158", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4432221291", fullName: "زهرا زارع منشادی", personnelCode: "11714091", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4431976071", fullName: "زهرا دهقان نژاد مهریزی", personnelCode: "11713606", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "1170787274", fullName: "جواد حجر", personnelCode: "44031418", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4489911424", fullName: "محمدرضا شیرغلامی", personnelCode: "96256664", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "2296192807", fullName: "رسول عمیقی ابرکویی", personnelCode: "73162031", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4433617903", fullName: "محمدسعید سالاروندیان", personnelCode: "72506605", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4449667867", fullName: "مژگان حاجی احمدی اردکانی", personnelCode: "11287304", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4433359467", fullName: "محمدرضا زکی زاده چایگانی", personnelCode: "12478830", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "5430064645", fullName: "سید محسن طباطبایی زاده", personnelCode: "44980635", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420989149", fullName: "محسن مشایخی", personnelCode: "44981005", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4433322921", fullName: "حمیدرضا حدادی ندوشن", personnelCode: "93991063", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" },
+            { nationalCode: "4420843217", fullName: "علیرضا میرعلائی", personnelCode: "94026999", certHeaderTitle: "گواهی حضور در مسابقات ورزشی", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" }
         ];
 
         let selectedRecord = null;
@@ -603,7 +778,7 @@
                     });
 
                     if (!selectedRecord) {
-                        errorDiv.innerText = 'کد ملی وارد شده در لیست شرکت‌کنندگان مسابقات ورزشی یافت نشد.';
+                        errorDiv.innerText = 'کد ملی وارد شده در سامانه یافت نشد.';
                         btnText.style.display = 'inline';
                         btnSpinner.style.display = 'none';
                         return;
@@ -611,6 +786,7 @@
 
                     errorDiv.innerText = '';
 
+                    document.getElementById('dispCertMainTitle').innerText = selectedRecord.certHeaderTitle || 'گواهی حضور';
                     document.getElementById('dispName').innerText = selectedRecord.fullName;
                     document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode;
                     document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle;
@@ -619,7 +795,7 @@
                     document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
                     document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
                     
-                    document.getElementById('searchBox').style.display = 'none';
+                    document.getElementById('portalHome').style.display = 'none';
                     document.getElementById('verificationBadge').style.display = 'block';
                     document.getElementById('certWrapper').style.display = 'flex';
 
@@ -666,7 +842,7 @@
         function resetSearch() {
             document.getElementById('certWrapper').style.display = 'none';
             document.getElementById('verificationBadge').style.display = 'none';
-            document.getElementById('searchBox').style.display = 'block';
+            document.getElementById('portalHome').style.display = 'flex';
             document.getElementById('nationalCodeInput').value = '';
             document.getElementById('errorMsg').innerText = '';
             selectedRecord = null;
@@ -685,7 +861,7 @@
         function downloadAsImage() {
             const certElement = document.getElementById('certificate');
             if (typeof html2canvas === 'undefined') {
-                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است.');
+                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. لطفاً چند لحظه صبر کنید.');
                 return;
             }
             html2canvas(certElement, {
@@ -696,7 +872,7 @@
                 height: 707
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `گواهی_${selectedRecord.fullName}_مسابقات_ورزشی.png`;
+                link.download = `گواهی_${selectedRecord.fullName}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             });
@@ -704,10 +880,11 @@
 
         function downloadAsPDF() {
             const certElement = document.getElementById('certificate');
-            if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') {
-                alert('کتابخانه‌های مورد نیاز PDF بارگذاری نشده‌اند.');
+            if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+                alert('کتابخانه‌های مورد نیاز PDF هنوز از اینترنت بارگذاری نشده‌اند. لطفاً چند لحظه دیگر مجدد تلاش کنید.');
                 return;
             }
+
             html2canvas(certElement, {
                 scale: 2,
                 useCORS: true,
@@ -715,13 +892,18 @@
                 width: 1000,
                 height: 707
             }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('l', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
-                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`گواهی_${selectedRecord.fullName}_مسابقات_ورزشی.pdf`);
+                try {
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('l', 'mm', 'a4');
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save(`گواهی_${selectedRecord.fullName}.pdf`);
+                } catch (e) {
+                    console.error(e);
+                    alert('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر PNG» استفاده کنید.');
+                }
             });
         }
     </script>
