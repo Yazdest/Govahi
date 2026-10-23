@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         @font-face {
@@ -38,6 +39,23 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+        }
+
+        /* نوار وضعیت اعتبارسنجی بالای صفحه */
+        .verification-badge {
+            display: none;
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1.5px solid #34d399;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-family: 'B Titr', Tahoma;
+            font-size: 14px;
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         /* کادر جستجو */
@@ -81,6 +99,10 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .search-box button:hover {
@@ -94,6 +116,22 @@
             font-size: 15px;
         }
 
+        /* انیمیشن لودینگ (اسپینر) */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s ease-in-out infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* بخش گواهی‌نامه نهایی (ابعاد افقی استاندارد A4) */
         .certificate-wrapper {
             display: none;
@@ -101,6 +139,12 @@
             align-items: center;
             width: 100%;
             max-width: 1000px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .certificate-container {
@@ -237,7 +281,6 @@
             min-height: 100px;
         }
 
-        /* تنظیمات اختصاصی برای نمایش تک و استاندارد QR Code */
         #qrcode {
             width: 70px;
             height: 70px;
@@ -272,7 +315,6 @@
             justify-content: center;
         }
 
-        /* بزرگ‌تر و ضخیم‌تر شدن امضا */
         .signature-img {
             height: 190px;
             max-width: 420px;
@@ -282,7 +324,6 @@
             filter: contrast(160%) brightness(90%);
         }
 
-        /* نزدیک‌تر شدن مهر به امضا */
         .seal-img {
             width: 125px;
             height: 125px;
@@ -292,49 +333,71 @@
             margin-left: -75px; 
         }
 
-        /* دکمه‌ها و بازگشت */
+        /* پنل دکمه‌ها و عملیات پیشرفته */
+        .action-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
         .action-btns {
             display: flex;
             gap: 15px;
-            margin-top: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
-            padding: 14px 30px;
+            padding: 12px 24px;
             background-color: #2563eb;
             color: white;
             border: none;
             border-radius: 8px;
             font-family: 'B Titr', Tahoma;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
             transition: background 0.2s;
         }
+        .btn-primary:hover { background-color: #1d4ed8; }
 
-        .btn-primary:hover {
-            background-color: #1d4ed8;
+        .btn-success {
+            padding: 12px 24px;
+            background-color: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'B Titr', Tahoma;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+            transition: background 0.2s;
         }
+        .btn-success:hover { background-color: #047857; }
 
         .btn-secondary {
-            padding: 14px 20px;
+            padding: 12px 20px;
             background-color: #4b5563;
             color: white;
             border: none;
             border-radius: 8px;
             font-family: 'B Titr', Tahoma;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: background 0.2s;
         }
-
-        .btn-secondary:hover {
-            background-color: #374151;
-        }
+        .btn-secondary:hover { background-color: #374151; }
     </style>
 </head>
 <body>
+
+    <!-- نوار اعتبارسنجی آنلاین -->
+    <div id="verificationBadge" class="verification-badge">
+        ✅ اصالت این گواهی توسط اداره آموزش و پرورش استثنایی استان یزد تأیید می‌شود و معتبر است.
+    </div>
 
     <!-- فرم دریافت کد ملی -->
     <div class="search-box" id="searchBox">
@@ -342,7 +405,10 @@
         <p>لطفاً کد ملی خود را وارد نمایید:</p>
         <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" onkeypress="if(event.key === 'Enter') handleSearch()">
         <br>
-        <button id="searchBtn" type="button" onclick="handleSearch()">استعلام و دریافت گواهی</button>
+        <button id="searchBtn" type="button" onclick="handleSearch()">
+            <span id="btnText">استعلام و دریافت گواهی</span>
+            <span id="btnSpinner" class="spinner"></span>
+        </button>
         <div id="errorMsg" class="error-msg"></div>
     </div>
 
@@ -390,7 +456,7 @@
             </div>
 
             <div class="footer-content">
-                <!-- بارکد و QR Code (مقاوم و تک) -->
+                <!-- بارکد و QR Code -->
                 <div class="codes-box">
                     <div id="qrcode"></div>
                     <svg id="barcode"></svg>
@@ -406,9 +472,13 @@
             </div>
         </div>
 
-        <div class="action-btns">
-            <button class="btn-secondary" type="button" onclick="resetSearch()">🔍 جستجوی مجدد</button>
-            <button class="btn-primary" type="button" onclick="downloadAsImage()">📸 دانلود تصویر افقی گواهی (PNG)</button>
+        <!-- دکمه‌های عملیاتی پیشرفته -->
+        <div class="action-container">
+            <div class="action-btns">
+                <button class="btn-secondary" type="button" onclick="resetSearch()">🔍 جستجوی مجدد</button>
+                <button class="btn-primary" type="button" onclick="downloadAsImage()">📸 دانلود تصویر (PNG)</button>
+                <button class="btn-success" type="button" onclick="downloadAsPDF()">📄 دانلود فایل (PDF)</button>
+            </div>
         </div>
     </div>
 
@@ -509,86 +579,98 @@
         }
 
         function handleSearch(targetCode = null) {
-            try {
-                let inputVal = targetCode || document.getElementById('nationalCodeInput').value;
-                let cleanInput = normalizeDigits(inputVal);
-                const errorDiv = document.getElementById('errorMsg');
-                
-                if (!cleanInput) {
-                    errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
-                    return;
-                }
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            btnText.style.display = 'none';
+            btnSpinner.style.display = 'inline-block';
 
-                // جستجوی کد ملی
-                selectedRecord = allRecords.find(p => {
-                    let recCode = normalizeDigits(p.nationalCode);
-                    return recCode === cleanInput || parseInt(recCode, 10) === parseInt(cleanInput, 10);
-                });
-
-                if (!selectedRecord) {
-                    errorDiv.innerText = 'کد ملی وارد شده در لیست شرکت‌کنندگان مسابقات ورزشی یافت نشد.';
-                    return;
-                }
-
-                errorDiv.innerText = '';
-
-                // درج اطلاعات در گواهی
-                document.getElementById('dispName').innerText = selectedRecord.fullName;
-                document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode;
-                document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle;
-                document.getElementById('dispDate').innerText = selectedRecord.courseDate;
-                document.getElementById('dispHours').innerText = selectedRecord.courseHours;
-                document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
-                document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
-                
-                document.getElementById('searchBox').style.display = 'none';
-                document.getElementById('certWrapper').style.display = 'flex';
-
-                // پاکسازی کامل المان QR Code پیشین جهت جلوگیری از تکرار و عدم اسکن
-                const qrElem = document.getElementById("qrcode");
-                qrElem.innerHTML = "";
-
-                // تولید مجدد و استاندارد QR Code با قابلیت اسکن بالا
+            setTimeout(() => {
                 try {
-                    if (typeof QRCode !== 'undefined') {
-                        new QRCode(qrElem, {
-                            text: window.location.href.split('?')[0] + "?code=" + selectedRecord.nationalCode,
-                            width: 70,
-                            height: 70,
-                            colorDark: "#000000",
-                            colorLight: "#ffffff",
-                            correctLevel: QRCode.CorrectLevel.M
-                        });
+                    let inputVal = targetCode || document.getElementById('nationalCodeInput').value;
+                    let cleanInput = normalizeDigits(inputVal);
+                    const errorDiv = document.getElementById('errorMsg');
+                    
+                    if (!cleanInput) {
+                        errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
+                        btnText.style.display = 'inline';
+                        btnSpinner.style.display = 'none';
+                        return;
                     }
-                } catch (e) {
-                    console.log('QRCode error:', e);
-                }
 
-                try {
-                    if (typeof JsBarcode !== 'undefined') {
-                        JsBarcode("#barcode", "YZD-" + selectedRecord.nationalCode, { 
-                            format: "CODE128", 
-                            width: 1.3, 
-                            height: 30, 
-                            displayValue: true,
-                            fontSize: 10
-                        });
+                    selectedRecord = allRecords.find(p => {
+                        let recCode = normalizeDigits(p.nationalCode);
+                        return recCode === cleanInput || parseInt(recCode, 10) === parseInt(cleanInput, 10);
+                    });
+
+                    if (!selectedRecord) {
+                        errorDiv.innerText = 'کد ملی وارد شده در لیست شرکت‌کنندگان مسابقات ورزشی یافت نشد.';
+                        btnText.style.display = 'inline';
+                        btnSpinner.style.display = 'none';
+                        return;
                     }
-                } catch (e) {
-                    console.log('JsBarcode error:', e);
+
+                    errorDiv.innerText = '';
+
+                    document.getElementById('dispName').innerText = selectedRecord.fullName;
+                    document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode;
+                    document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle;
+                    document.getElementById('dispDate').innerText = selectedRecord.courseDate;
+                    document.getElementById('dispHours').innerText = selectedRecord.courseHours;
+                    document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
+                    document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
+                    
+                    document.getElementById('searchBox').style.display = 'none';
+                    document.getElementById('verificationBadge').style.display = 'block';
+                    document.getElementById('certWrapper').style.display = 'flex';
+
+                    const qrElem = document.getElementById("qrcode");
+                    qrElem.innerHTML = "";
+                    try {
+                        if (typeof QRCode !== 'undefined') {
+                            new QRCode(qrElem, {
+                                text: window.location.href.split('?')[0] + "?code=" + selectedRecord.nationalCode,
+                                width: 70,
+                                height: 70,
+                                colorDark: "#000000",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.M
+                            });
+                        }
+                    } catch (e) {
+                        console.log('QRCode error:', e);
+                    }
+
+                    try {
+                        if (typeof JsBarcode !== 'undefined') {
+                            JsBarcode("#barcode", "YZD-" + selectedRecord.nationalCode, { 
+                                format: "CODE128", 
+                                width: 1.3, 
+                                height: 30, 
+                                displayValue: true,
+                                fontSize: 10
+                            });
+                        }
+                    } catch (e) {
+                        console.log('JsBarcode error:', e);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('خطایی رخ داد: ' + err.message);
+                } finally {
+                    btnText.style.display = 'inline';
+                    btnSpinner.style.display = 'none';
                 }
-            } catch (err) {
-                console.error(err);
-                alert('خطایی رخ داد: ' + err.message);
-            }
+            }, 300);
         }
 
         function resetSearch() {
             document.getElementById('certWrapper').style.display = 'none';
+            document.getElementById('verificationBadge').style.display = 'none';
             document.getElementById('searchBox').style.display = 'block';
             document.getElementById('nationalCodeInput').value = '';
             document.getElementById('errorMsg').innerText = '';
             selectedRecord = null;
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
 
         window.onload = function() {
@@ -603,7 +685,7 @@
         function downloadAsImage() {
             const certElement = document.getElementById('certificate');
             if (typeof html2canvas === 'undefined') {
-                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. لطفاً چند لحظه بعد تلاش کنید.');
+                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است.');
                 return;
             }
             html2canvas(certElement, {
@@ -617,6 +699,29 @@
                 link.download = `گواهی_${selectedRecord.fullName}_مسابقات_ورزشی.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
+            });
+        }
+
+        function downloadAsPDF() {
+            const certElement = document.getElementById('certificate');
+            if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') {
+                alert('کتابخانه‌های مورد نیاز PDF بارگذاری نشده‌اند.');
+                return;
+            }
+            html2canvas(certElement, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                width: 1000,
+                height: 707
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('l', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`گواهی_${selectedRecord.fullName}_مسابقات_ورزشی.pdf`);
             });
         }
     </script>
