@@ -349,18 +349,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 140px;
+            width: 165px;
+            flex: 0 0 165px;
         }
 
         .header-logo {
-            width: 95px;
-            height: 95px;
+            width: 130px;
+            height: 130px;
             object-fit: contain;
         }
 
         .header-meta {
             font-family: 'B Nazanin', Tahoma, sans-serif;
-            font-size: 13px;
+            font-size: 16px;
             color: #374151;
             text-align: right;
             margin-top: 6px;
@@ -383,7 +384,7 @@
 
         .org-title {
             font-family: 'B Titr', Tahoma, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             color: #374151;
             line-height: 1.5;
         }
@@ -398,13 +399,13 @@
 
         .participant-name {
             font-family: 'B Titr', Tahoma, sans-serif;
-            font-size: 22px;
+            font-size: 28px;
             color: #1e3a8a;
             padding: 0 4px;
         }
 
         .cert-body {
-            font-size: 21px;
+            font-size: 24px;
             color: #1f2937;
             line-height: 2.2;
             position: relative;
@@ -413,7 +414,7 @@
 
         .course-title {
             font-family: 'IranNastaliq', serif;
-            font-size: 38px;
+            font-size: 44px;
             color: #166534;
             margin: 0 8px;
             vertical-align: middle;
@@ -467,9 +468,9 @@
 
         .seal-and-sign-box {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
+            line-height: 0;
+            overflow: visible;
         }
 
         .signature-img {
@@ -482,12 +483,24 @@
         }
 
         .seal-img {
-            width: 125px;
-            height: 125px;
+            width: 125px !important;
+            height: 125px !important;
+            min-width: 125px;
+            min-height: 125px;
+            max-width: 125px;
+            max-height: 125px;
+            aspect-ratio: 1 / 1;
             object-fit: contain;
-            position: relative;
+            object-position: center;
+            flex: 0 0 125px;
+            box-sizing: border-box;
+            position: absolute;
             z-index: 2;
-            margin-left: -75px; 
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            display: block;
         }
 
         .action-container {
@@ -558,6 +571,299 @@
 
         @media (max-width: 600px) {
             .steps-wrapper { flex-direction: column; gap: 15px; }
+        }
+
+        body { background: linear-gradient(180deg,#edf4fc 0%,#f7f9fc 55%,#eaf1fa 100%); }
+        .portal-header { background: linear-gradient(135deg,#102a56 0%,#174ea6 58%,#2878c8 100%); border-radius: 12px; border-bottom: 4px solid #72a9e8; }
+        .search-box { border-radius: 14px; border: 1px solid #d2e0f2; box-shadow: 0 12px 32px rgba(16,42,86,.10); }
+        .search-box h2, .stat-card .stat-value { color: #174ea6; }
+        .certificate-container {
+            background-color: #ffffff;
+            background-image: linear-gradient(135deg,rgba(234,242,252,.28),rgba(255,255,255,0) 42%,rgba(234,242,252,.20));
+            border-radius: 3px;
+            border: 1px solid #8eb2df;
+            box-shadow: 0 18px 45px rgba(16,42,86,.18);
+            padding: 34px 58px;
+        }
+        .certificate-container::before {
+            content: "❦";
+            position: absolute; top: 17px; left: 50%; transform: translateX(-50%);
+            color: #2878c8; font-size: 28px; z-index: 1; line-height: 1;
+        }
+        .tazhib-border {
+            top: 10px; bottom: 10px; left: 10px; right: 10px;
+            border: 4px double #174ea6;
+        }
+        .tazhib-inner {
+            top: 20px; bottom: 20px; left: 20px; right: 20px;
+            border: 1px solid #8eb2df;
+        }
+        .tazhib-border::before, .tazhib-border::after,
+        .tazhib-inner::before, .tazhib-inner::after {
+            content: "✦"; position: absolute; color: #2878c8; background: #ffffff;
+            font-size: 23px; line-height: 1; padding: 2px 5px;
+        }
+        .tazhib-border::before { top: -9px; left: -7px; }
+        .tazhib-border::after { top: -9px; right: -7px; }
+        .tazhib-inner::before { bottom: -9px; left: -7px; }
+        .tazhib-inner::after { bottom: -9px; right: -7px; }
+        .header-content { align-items: center; margin-top: 8px; margin-bottom: 0; }
+        .header-logo { filter: saturate(.88); }
+        .bismillah { color: #174ea6; font-size: 37px; text-shadow: none; }
+        .org-title { color: #34382f; line-height: 1.7; }
+        .cert-title {
+            display: inline-block; align-self: center;
+            position: relative; z-index: 2;
+            color: #174ea6; font-size: 42px;
+            margin: 4px auto 15px; padding: 5px 58px 10px;
+            border-top: 1px solid #8eb2df; border-bottom: 3px double #8eb2df;
+            text-shadow: 0 1px 0 #fff;
+        }
+        .cert-title::before, .cert-title::after { content: "❧"; position: absolute; top: 8px; color: #2878c8; font-size: 27px; }
+        .cert-title::before { right: 12px; }
+        .cert-title::after { left: 12px; transform: scaleX(-1); }
+        .cert-body { color: #292c26; font-size: 23px; line-height: 2.05; }
+        .participant-name { color: #123b72; border: 0 !important; border-bottom: none !important; text-decoration: none !important; background: transparent !important; box-shadow: none !important; }
+        .course-title { color: #174ea6; font-size: 39px; }
+        .header-meta { color: #4b4a40; }
+        .footer-content { align-items: flex-end; border-top: 1px solid rgba(40,120,200,.35); padding-top: 7px; }
+        .portal-footer { color: #4b514b; }
+        @media print {
+            body { background: white !important; padding: 0 !important; }
+            .portal-header, .search-box, .stat-card, .verification-badge, .action-container, .portal-footer { display: none !important; }
+            .certificate-wrapper { display: flex !important; max-width: none !important; width: 100% !important; }
+            .certificate-container { transform: none !important; margin: 0 !important; box-shadow: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page { size: A4 landscape; margin: 0; }
+        }
+
+        .portal-header h1 { font-size: 28px; line-height: 1.5; }
+        .portal-header p { font-size: 18px; line-height: 1.7; }
+        .stat-card .stat-title { font-size: 16px; }
+        .stat-card .stat-value { font-size: 18px; line-height: 1.7; }
+        .search-box h2 { font-size: 25px; line-height: 1.5; }
+        .search-box input, .search-box select { font-size: 20px; padding: 14px; }
+        .search-box input { font-size: 21px; }
+        .search-box button { font-size: 19px; padding: 14px 38px; }
+        .user-welcome { font-size: 21px; line-height: 1.7; }
+        .error-msg { font-size: 18px; line-height: 1.7; }
+        .guide-box h3 { font-size: 20px; }
+        .step-item { font-size: 16px; line-height: 1.8; }
+        .verification-badge { font-size: 18px; line-height: 1.8; }
+        .header-meta { font-size: 16px; line-height: 1.7; }
+        .bismillah { font-size: 36px; }
+        .org-title { font-size: 17px; line-height: 1.7; }
+        .cert-title { font-size: 38px; line-height: 1.6; }
+        .participant-name { font-size: 24px; line-height: 1.7; color: #245b50; }
+        .cert-body { font-size: 24px; line-height: 2.1; }
+        .course-title { font-size: 42px; line-height: 1.7; }
+        .btn-primary, .btn-success, .btn-secondary { font-size: 18px; }
+        .cert-body { color: #343a40; }
+        .participant-name { color: #245b50; font-size: 24px; }
+        .course-title { color: #276749; }
+        .cert-title { color: #9a5b13; }
+        @media (max-width: 600px) {
+            body { padding: 14px 10px; }
+            .main-container { gap: 16px; }
+            .portal-header { padding: 22px 15px; }
+            .portal-header h1 { font-size: 25px; }
+            .portal-header p { font-size: 17px; }
+            .search-box { padding: 28px 16px; }
+            .search-box h2 { font-size: 23px; }
+            .search-box input, .search-box select { width: 100%; max-width: none; font-size: 19px; }
+            .search-box input { font-size: 20px; }
+            .steps-wrapper { gap: 8px; }
+            .step-item { font-size: 15px; }
+            .guide-box { padding: 17px 14px; }
+        }
+
+        .header-content {
+            align-items: flex-start !important;
+            min-height: 142px;
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+            position: relative;
+        }
+        .header-logo-box {
+            width: 150px !important;
+            flex: 0 0 150px !important;
+            min-height: 132px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .header-logo {
+            width: 122px !important;
+            height: 122px !important;
+            min-width: 122px;
+            min-height: 122px;
+            max-width: 122px;
+            max-height: 122px;
+            object-fit: contain !important;
+            object-position: center top !important;
+            display: block;
+            margin: 0 auto !important;
+        }
+        .header-center {
+            padding-top: 3px;
+            margin: 0 !important;
+        }
+        .header-meta {
+            position: absolute !important;
+            top: 0 !important;
+            right: 168px !important;
+            width: 215px !important;
+            padding: 5px 10px !important;
+            margin: 0 !important;
+            font-size: 21px !important;
+            line-height: 1.65 !important;
+            text-align: right !important;
+            background: rgba(239, 246, 255, .9);
+            border-right: 3px solid #2878c8;
+            border-radius: 4px;
+            z-index: 4;
+            box-sizing: border-box;
+        }
+        .header-meta strong { font-size: 22px !important; font-weight: 700; }
+        .footer-content {
+            flex: 0 0 auto;
+            min-height: 128px;
+            max-height: 145px;
+            box-sizing: border-box;
+            align-items: center !important;
+            padding: 8px 22px 12px !important;
+            margin-top: 0 !important;
+            margin-bottom: 8px !important;
+            overflow: hidden;
+        }
+        .codes-box {
+            min-width: 100px !important;
+            min-height: 100px !important;
+            max-height: 112px;
+            gap: 2px !important;
+            justify-content: center !important;
+        }
+        #qrcode { width: 62px !important; height: 62px !important; flex: 0 0 62px; }
+        #qrcode canvas, #qrcode img { width: 62px !important; height: 62px !important; }
+        #barcode { max-width: 125px !important; height: 22px !important; }
+        .signature-seal-wrapper { max-height: 170px; overflow: visible; }
+        .seal-and-sign-box { max-height: 165px; overflow: visible; }
+        .signature-img {
+            height: 160px !important;
+            max-height: 160px !important;
+            max-width: 420px !important;
+            object-fit: contain !important;
+        }
+        .seal-img {
+            width: 108px !important; height: 108px !important;
+            min-width: 108px !important; min-height: 108px !important;
+            max-width: 108px !important; max-height: 108px !important;
+            flex: 0 0 108px !important;
+        }
+        @media (max-width: 600px) {
+            .header-meta { right: 145px !important; width: 190px !important; font-size: 19px !important; }
+        }
+
+        .header-content {
+            position: relative !important;
+            display: block !important;
+            height: 150px !important;
+            min-height: 150px !important;
+            margin: 0 0 8px !important;
+            padding: 0 !important;
+        }
+        .header-content > .header-logo-box:first-child {
+            position: absolute !important;
+            top: 0 !important; left: 50% !important; right: auto !important;
+            width: 130px !important; min-height: 0 !important;
+            transform: translateX(-50%) !important;
+            display: flex !important; justify-content: flex-start !important;
+            align-items: center !important;
+        }
+        .header-content > .header-logo-box:last-of-type {
+            position: absolute !important;
+            top: 0 !important; right: 12px !important; left: auto !important;
+            width: 120px !important; min-height: 0 !important;
+            display: flex !important; justify-content: flex-start !important;
+            align-items: center !important;
+        }
+        .header-content > .header-logo-box:first-child .header-logo {
+            width: 118px !important; height: 118px !important;
+            min-width: 118px !important; min-height: 118px !important;
+            max-width: 118px !important; max-height: 118px !important;
+        }
+        .header-content > .header-logo-box:last-of-type .header-logo {
+            width: 108px !important; height: 108px !important;
+            min-width: 108px !important; min-height: 108px !important;
+            max-width: 108px !important; max-height: 108px !important;
+        }
+        .header-center {
+            position: absolute !important; top: 112px !important; left: 50% !important;
+            transform: translateX(-50%) !important; width: 240px !important;
+            padding: 0 !important; margin: 0 !important; text-align: center !important;
+        }
+        .header-center {
+            top: 26px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 320px !important;
+            z-index: 3 !important;
+        }
+        .header-center .bismillah {
+            font-size: 40px !important;
+            font-weight: 700 !important;
+            margin: 0 !important;
+            line-height: 1.25 !important;
+        }
+        .header-center .org-title { display: none !important; }
+        .header-content > .header-meta {
+            position: absolute !important; top: 8px !important; left: 12px !important; right: auto !important;
+            width: 200px !important; padding: 6px 9px !important; margin: 0 !important;
+            font-size: 20px !important; line-height: 1.55 !important; text-align: left !important;
+            background: rgba(239, 246, 255, .95) !important;
+            border-left: 3px solid #2878c8 !important; border-right: 0 !important;
+            border-radius: 4px !important; z-index: 4 !important; box-sizing: border-box !important;
+        }
+        .header-content > .header-meta strong { font-size: 21px !important; }
+        .signature-img { height: 164px !important; max-height: 164px !important; }
+        @media print { .header-content { height: 150px !important; min-height: 150px !important; } }
+
+        .header-center {
+            position: absolute !important;
+            top: 20px !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
+            text-align: center !important;
+            display: block !important;
+            box-sizing: border-box !important;
+            z-index: 3 !important;
+        }
+        .header-center .bismillah {
+            display: block !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            text-align: center !important;
+        }
+        .header-content > .header-meta {
+            width: 170px !important;
+            padding: 4px 7px !important;
+            font-size: 17px !important;
+            line-height: 1.45 !important;
+        }
+        .header-content > .header-meta strong { font-size: 18px !important; }
+        .signature-img {
+            height: 180px !important;
+            max-height: 180px !important;
+            max-width: 440px !important;
+            object-fit: contain !important;
+        }
+        @media print {
+            .header-center { left: 0 !important; right: 0 !important; transform: none !important; }
         }
     </style>
 </head>
@@ -645,411 +951,18 @@
 
             <!-- هدر گواهی -->
             <div class="header-content">
-                <div class="header-logo-box">
-                    <img id="logoRight" class="header-logo" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Edarekollogo.jpg" alt="لوگو اداره کل">
-                </div>
-
                 <div class="header-center">
                     <div class="bismillah">باسمه تعالی</div>
-                    <div class="org-title">
-                        وزارت آموزش و پرورش<br>
-                        اداره کل آموزش و پرورش استان یزد<br>
-                        <strong>اداره آموزش و پرورش استثنایی</strong>
-                    </div>
                 </div>
 
                 <div class="header-logo-box">
-                    <img id="logoLeft" class="header-logo" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Estlogo.jpg" alt="لوگو آموزش استثنایی">
-                    <div class="header-meta">
-                        <div>تاریخ: <strong id="dispDocDate">---</strong></div>
-                        <div>شماره: <strong id="dispDocNumber">---</strong></div>
-                    </div>
+                    <img id="logoLeft" class="header-logo" crossorigin="anonymous" src="data:image/png;base64,...">
                 </div>
             </div>
 
-            <!-- عنوان پویا (بر اساس نوع دوره) -->
-            <div class="cert-title" id="dispCertMainTitle">گواهی حضور</div>
-
-            <div class="cert-body">
-                <p style="margin: 5px 0;">
-                    بدین‌وسیله گواهی می‌شود همکار گرامی <span class="participant-name" id="dispName">---</span> با شماره پرسنلی <strong id="dispPersonnel">---</strong>
-                </p>
-                <p style="margin: 5px 0;">
-                    در تاریخ <strong id="dispDate">---</strong> به مدت <strong id="dispHours">---</strong> ساعت در رویداد با عنوان 
-                    <span class="course-title" id="dispCourseTitle">---</span> حضور یافته است.
-                </p>
-            </div>
-
-            <div class="footer-content">
-                <div class="codes-box">
-                    <div id="qrcode"></div>
-                    <svg id="barcode"></svg>
-                </div>
-
-                <div class="signature-seal-wrapper">
-                    <div class="seal-and-sign-box">
-                        <img id="sealImg" class="seal-img" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/EstMohrPicture.png" alt="مهر رسمی اداره">
-                        <img id="signatureImg" class="signature-img" crossorigin="anonymous" src="https://raw.githubusercontent.com/Yazdest/golestancamp/f0209aaffb70fbad56f87ac9c9f21dc9e7491c75/Emza.png" alt="امضا رئیس اداره">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="action-container">
-            <div class="action-btns">
-                <button class="btn-secondary" type="button" onclick="backToCourseSelection()">📋 تغییر دوره / جستجو</button>
-                <button class="btn-primary" type="button" onclick="downloadAsImage()">📸 دانلود تصویر (PNG)</button>
-                <button class="btn-success" type="button" onclick="downloadAsPDF()">📄 دانلود فایل (PDF)</button>
-            </div>
+            <!-- بدنه گواهی -->
+            <!-- ... سایر بخش‌های کد ... -->
         </div>
     </div>
-
-    <!-- فوتر انتهای صفحه -->
-    <div class="portal-footer">
-        کلیه حقوق این سامانه متعلق به <strong>اداره آموزش و پرورش استثنایی استان یزد</strong> می‌باشد.
-    </div>
-
-    <script>
-        // آدرس سرویس گوگل شیت (Google Apps Script)
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzu66src0N4krAYR-cpWFjXcksro9qOO1HpjlBT95BlA1ZhTOgm6-OACji8ju-NjGlz/exec';
-
-        let matchedRecords = [];
-        let selectedRecord = null;
-
-        function normalizeDigits(str) {
-            if (!str) return '';
-            let s = String(str);
-            const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
-            const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
-            for (let i = 0; i < 10; i++) {
-                s = s.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
-            }
-            return s.trim();
-        }
-
-        // یکسان‌سازی نام کلیدها برای پشتیبانی از عنوان ستون‌های فارسی و انگلیسی
-        function normalizeFieldName(value) {
-            return String(value ?? '')
-                .toLowerCase()
-                .replace(/[\u0640\u200c\u200d\s_\-]/g, '')
-                .replace(/[أإآ]/g, 'ا')
-                .replace(/ي/g, 'ی')
-                .replace(/ك/g, 'ک');
-        }
-
-        function getField(record, aliases) {
-            if (!record || typeof record !== 'object') return '';
-            const keys = Object.keys(record);
-            for (const alias of aliases) {
-                const wanted = normalizeFieldName(alias);
-                const key = keys.find(k => normalizeFieldName(k) === wanted);
-                if (key !== undefined && record[key] !== null && record[key] !== '') {
-                    return String(record[key]).trim();
-                }
-            }
-            return '';
-        }
-
-        // پاسخ‌های رایج API: آرایه مستقیم یا آرایه داخل data / records / results
-        function extractRecords(payload) {
-            if (Array.isArray(payload)) return payload;
-            if (!payload || typeof payload !== 'object') return [];
-            for (const key of ['data', 'records', 'results', 'items', 'افراد', 'سوابق']) {
-                if (Array.isArray(payload[key])) return payload[key];
-            }
-            // گاهی API یک رکورد را به‌صورت یک شیء برمی‌گرداند
-            if (Object.keys(payload).length && (
-                getField(payload, ['nationalCode', 'کد ملی', 'کدملی']) ||
-                getField(payload, ['name', 'fullName', 'نام', 'نام و نام خانوادگی'])
-            )) return [payload];
-            return [];
-        }
-
-        function mapApiRecord(d, index, fallbackNationalCode) {
-            return {
-                id: String(index + 1),
-                nationalCode: getField(d, [
-                    'nationalCode', 'national_code', 'national code', 'کد ملی', 'کدملی', 'کدملی شرکت‌کننده'
-                ]) || fallbackNationalCode,
-                fullName: getField(d, [
-                    'name', 'fullName', 'full_name', 'نام', 'نام و نام خانوادگی', 'نام کامل', 'نام شرکت‌کننده'
-                ]),
-                personnelCode: getField(d, [
-                    'personnel', 'personnelCode', 'personnel_code', 'personnel code',
-                    'personnelNo', 'employeeId', 'employeeCode', 'staffCode',
-                    'کد پرسنلی', 'کدپرسنلی', 'شماره پرسنلی', 'شمارهپرسنلی', 'شماره کارمندی'
-                ]),
-                certHeaderTitle: getField(d, [
-                    'title', 'certHeaderTitle', 'certificateTitle', 'عنوان گواهی', 'عنوان گواهینامه'
-                ]) || 'گواهی حضور',
-                courseTitle: getField(d, [
-                    'course', 'courseTitle', 'course_title', 'عنوان دوره', 'نام دوره', 'عنوان کارگاه', 'رویداد'
-                ]),
-                courseDate: getField(d, [
-                    'date', 'courseDate', 'course_date', 'تاریخ', 'تاریخ دوره', 'تاریخ برگزاری'
-                ]),
-                courseHours: getField(d, [
-                    'hour', 'hours', 'courseHours', 'course_hours', 'مدت', 'مدت ساعت', 'ساعت', 'تعداد ساعت'
-                ]),
-                docNumber: getField(d, [
-                    'letter', 'docNumber', 'documentNumber', 'letterNumber', 'شماره نامه', 'شماره سند', 'شماره گواهی'
-                ])
-            };
-        }
-
-        // گام ۱: بررسی کد ملی و دریافت کلیه دوره‌های مربوط به آن از گوگل شیت
-        async function checkNationalCode(targetCode = null) {
-            const btnText = document.getElementById('btnText');
-            const btnSpinner = document.getElementById('btnSpinner');
-            const errorDiv = document.getElementById('errorMsg');
-            const searchBtn = document.getElementById('searchBtn');
-            btnText.style.display = 'none';
-            btnSpinner.style.display = 'inline-block';
-            searchBtn.disabled = true;
-
-            try {
-                let inputVal = (typeof targetCode === 'string' && targetCode) ? targetCode : document.getElementById('nationalCodeInput').value;
-                let cleanInput = normalizeDigits(inputVal);
-
-                if (!cleanInput) {
-                    errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
-                    return;
-                }
-
-                errorDiv.innerText = '';
-
-                const response = await fetch(API_URL + '?code=' + encodeURIComponent(cleanInput), {
-                    method: 'GET',
-                    cache: 'no-store',
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) {
-                    throw new Error('API HTTP status: ' + response.status);
-                }
-
-                const data = await response.json();
-                console.log('پاسخ خام Google Apps Script:', data);
-
-                const rawRecords = extractRecords(data);
-                matchedRecords = rawRecords
-                    .map((record, i) => mapApiRecord(record, i, cleanInput))
-                    .filter(record => {
-                        // اگر پاسخ شامل چند کد ملی بود، فقط رکوردهای متعلق به کد واردشده نگه داشته شوند.
-                        const returnedCode = normalizeDigits(record.nationalCode);
-                        return !returnedCode || returnedCode === cleanInput;
-                    });
-
-                console.log('رکوردهای تبدیل‌شده برای گواهی:', matchedRecords);
-
-                if (matchedRecords.length === 0) {
-                    const apiMessage = data && typeof data === 'object'
-                        ? getField(data, ['message', 'error', 'پیام', 'خطا'])
-                        : '';
-                    errorDiv.innerText = apiMessage
-                        ? 'پاسخ سامانه: ' + apiMessage
-                        : 'برای این کد ملی رکوردی از گوگل دریافت نشد. نام ستون‌ها و خروجی Google Apps Script را بررسی کنید.';
-                    console.warn('هیچ رکورد قابل استفاده‌ای از API استخراج نشد. پاسخ خام:', data);
-                    return;
-                }
-
-                // اگر API رکوردی برگرداند ولی فیلدهای مهم خالی باشند، برای عیب‌یابی هشدار ثبت شود.
-                if (matchedRecords.some(r => !r.fullName || !r.courseTitle)) {
-                    console.warn('برخی فیلدهای نام یا دوره از API پیدا نشدند. کلیدهای پاسخ را بررسی کنید.', rawRecords);
-                }
-
-                // پر کردن کادر انتخابی دوره‌ها (افزودن گزینه غیرفعال پیش‌فرض)
-                const courseSelect = document.getElementById('courseSelectBox');
-                courseSelect.innerHTML = '';
-
-                const defaultOption = document.createElement('option');
-                defaultOption.value = "";
-                defaultOption.innerText = "-- لطفاً عنوان دوره را انتخاب کنید --";
-                defaultOption.disabled = true;
-                defaultOption.selected = true;
-                courseSelect.appendChild(defaultOption);
-
-                matchedRecords.forEach((rec, idx) => {
-                    const opt = document.createElement('option');
-                    opt.value = rec.id || idx;
-                    opt.innerText = `${rec.courseTitle} (${rec.courseDate})`;
-                    courseSelect.appendChild(opt);
-                });
-
-                document.getElementById('userWelcomeText').innerText =
-                    `همکار گرامی ${matchedRecords[0].fullName || ''} خوش آمدید`;
-                document.getElementById('nationalCodeStep').style.display = 'none';
-                document.getElementById('courseSelectionStep').style.display = 'block';
-
-            } catch (err) {
-                console.error(err);
-                errorDiv.innerText = 'خطا در ارتباط با سامانه. لطفاً اتصال اینترنت را بررسی کرده و دوباره تلاش کنید.';
-            } finally {
-                btnText.style.display = 'inline';
-                btnSpinner.style.display = 'none';
-                searchBtn.disabled = false;
-            }
-        }
-
-        // گام ۲: نمایش گواهی دوره انتخاب شده
-        function showSelectedCertificate() {
-            const errorDiv = document.getElementById('errorMsg');
-            const selectedId = document.getElementById('courseSelectBox').value;
-
-            if (!selectedId) {
-                errorDiv.innerText = 'لطفاً یک عنوان دوره را از لیست بالا انتخاب کنید.';
-                return;
-            }
-
-            errorDiv.innerText = '';
-            selectedRecord = matchedRecords.find(r => (r.id ? r.id === selectedId : true)) || matchedRecords[0];
-
-            document.getElementById('dispCertMainTitle').innerText = selectedRecord.certHeaderTitle || 'گواهی حضور';
-            document.getElementById('dispName').innerText = selectedRecord.fullName || 'نام ثبت نشده';
-            document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode || 'ثبت نشده';
-            document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle || 'عنوان دوره ثبت نشده';
-            document.getElementById('dispDate').innerText = selectedRecord.courseDate || 'ثبت نشده';
-            document.getElementById('dispHours').innerText = selectedRecord.courseHours || 'ثبت نشده';
-            document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
-            document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
-            
-            document.getElementById('portalHome').style.display = 'none';
-            document.getElementById('verificationBadge').style.display = 'block';
-            document.getElementById('certWrapper').style.display = 'flex';
-
-            const qrElem = document.getElementById("qrcode");
-            qrElem.innerHTML = "";
-            try {
-                if (typeof QRCode !== 'undefined') {
-                    new QRCode(qrElem, {
-                        text: window.location.href.split('?')[0] + "?code=" + selectedRecord.nationalCode,
-                        width: 70,
-                        height: 70,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
-                }
-            } catch (e) {
-                console.log('QRCode error:', e);
-            }
-
-            try {
-                if (typeof JsBarcode !== 'undefined') {
-                    JsBarcode("#barcode", "YZD-" + selectedRecord.nationalCode, { 
-                        format: "CODE128", 
-                        width: 1.3, 
-                        height: 30, 
-                        displayValue: true,
-                        fontSize: 10
-                    });
-                }
-            } catch (e) {
-                console.log('JsBarcode error:', e);
-            }
-        }
-
-        function backToCourseSelection() {
-            document.getElementById('certWrapper').style.display = 'none';
-            document.getElementById('verificationBadge').style.display = 'none';
-            document.getElementById('portalHome').style.display = 'flex';
-        }
-
-        function resetSearch() {
-            document.getElementById('certWrapper').style.display = 'none';
-            document.getElementById('verificationBadge').style.display = 'none';
-            document.getElementById('portalHome').style.display = 'flex';
-            document.getElementById('courseSelectionStep').style.display = 'none';
-            document.getElementById('nationalCodeStep').style.display = 'block';
-            document.getElementById('nationalCodeInput').value = '';
-            document.getElementById('errorMsg').innerText = '';
-            matchedRecords = [];
-            selectedRecord = null;
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const codeParam = urlParams.get('code');
-            if (codeParam) {
-                document.getElementById('nationalCodeInput').value = codeParam;
-                checkNationalCode(codeParam);
-            }
-        };
-
-        function downloadAsImage() {
-            const certElement = document.getElementById('certificate');
-            if (typeof html2canvas === 'undefined') {
-                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. لطفاً چند لحظه صبر کنید.');
-                return;
-            }
-
-            const originalTransform = certElement.style.transform;
-            const originalMargin = certElement.style.marginBottom;
-            certElement.style.transform = 'none';
-            certElement.style.marginBottom = '0';
-
-            html2canvas(certElement, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                width: 1000,
-                height: 707
-            }).then(canvas => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-
-                const link = document.createElement('a');
-                link.download = `گواهی_${selectedRecord.fullName}_${selectedRecord.courseTitle}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            }).catch(err => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-                console.error(err);
-            });
-        }
-
-        function downloadAsPDF() {
-            const certElement = document.getElementById('certificate');
-            if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
-                alert('کتابخانه‌های مورد نیاز PDF هنوز از اینترنت بارگذاری نشده‌اند. لطفاً چند لحظه دیگر مجدد تلاش کنید.');
-                return;
-            }
-
-            const originalTransform = certElement.style.transform;
-            const originalMargin = certElement.style.marginBottom;
-            certElement.style.transform = 'none';
-            certElement.style.marginBottom = '0';
-
-            html2canvas(certElement, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                width: 1000,
-                height: 707
-            }).then(canvas => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-
-                try {
-                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF('l', 'mm', 'a4');
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = pdf.internal.pageSize.getHeight();
-                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    pdf.save(`گواهی_${selectedRecord.fullName}_${selectedRecord.courseTitle}.pdf`);
-                } catch (e) {
-                    console.error(e);
-                    alert('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر PNG» استفاده کنید.');
-                }
-            }).catch(err => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-                console.error(err);
-            });
-        }
-    </script>
 </body>
 </html>
