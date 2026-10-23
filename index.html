@@ -237,15 +237,23 @@
             min-height: 100px;
         }
 
+        /* تنظیمات اختصاصی برای نمایش تک و استاندارد QR Code */
+        #qrcode {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         #qrcode canvas, #qrcode img {
             display: block !important;
-            width: 65px !important;
-            height: 65px !important;
+            width: 70px !important;
+            height: 70px !important;
         }
 
         #barcode {
             max-width: 140px;
-            height: 32px;
+            height: 30px;
         }
 
         /* بخش امضا و مهر */
@@ -382,7 +390,7 @@
             </div>
 
             <div class="footer-content">
-                <!-- بارکد و QR Code -->
+                <!-- بارکد و QR Code (مقاوم و تک) -->
                 <div class="codes-box">
                     <div id="qrcode"></div>
                     <svg id="barcode"></svg>
@@ -511,7 +519,7 @@
                     return;
                 }
 
-                // جستجوی دقیق کد ملی با تطبیق رشته و اعداد
+                // جستجوی کد ملی
                 selectedRecord = allRecords.find(p => {
                     let recCode = normalizeDigits(p.nationalCode);
                     return recCode === cleanInput || parseInt(recCode, 10) === parseInt(cleanInput, 10);
@@ -536,15 +544,20 @@
                 document.getElementById('searchBox').style.display = 'none';
                 document.getElementById('certWrapper').style.display = 'flex';
 
-                // ساخت QR Code و بارکد به‌صورت ایمن
+                // پاکسازی کامل المان QR Code پیشین جهت جلوگیری از تکرار و عدم اسکن
+                const qrElem = document.getElementById("qrcode");
+                qrElem.innerHTML = "";
+
+                // تولید مجدد و استاندارد QR Code با قابلیت اسکن بالا
                 try {
-                    const qrElem = document.getElementById("qrcode");
-                    qrElem.innerHTML = "";
                     if (typeof QRCode !== 'undefined') {
                         new QRCode(qrElem, {
                             text: window.location.href.split('?')[0] + "?code=" + selectedRecord.nationalCode,
-                            width: 65,
-                            height: 65
+                            width: 70,
+                            height: 70,
+                            colorDark: "#000000",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.M
                         });
                     }
                 } catch (e) {
