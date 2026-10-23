@@ -233,6 +233,8 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
+            min-width: 120px;
+            min-height: 100px;
         }
 
         #qrcode canvas, #qrcode img {
@@ -332,7 +334,7 @@
         <p>لطفاً کد ملی خود را وارد نمایید:</p>
         <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" onkeypress="if(event.key === 'Enter') handleSearch()">
         <br>
-        <button id="searchBtn" onclick="handleSearch()">استعلام و دریافت گواهی</button>
+        <button id="searchBtn" type="button" onclick="handleSearch()">استعلام و دریافت گواهی</button>
         <div id="errorMsg" class="error-msg"></div>
     </div>
 
@@ -397,13 +399,13 @@
         </div>
 
         <div class="action-btns">
-            <button class="btn-secondary" onclick="resetSearch()">🔍 جستجوی مجدد</button>
-            <button class="btn-primary" onclick="downloadAsImage()">📸 دانلود تصویر افقی گواهی (PNG)</button>
+            <button class="btn-secondary" type="button" onclick="resetSearch()">🔍 جستجوی مجدد</button>
+            <button class="btn-primary" type="button" onclick="downloadAsImage()">📸 دانلود تصویر افقی گواهی (PNG)</button>
         </div>
     </div>
 
     <script>
-        // بانک اطلاعاتی شرکت‌کنندگان (صرفاً مسابقات ورزشی - ۷۳ همکار)
+        // بانک اطلاعاتی ۷۳ همکار مسابقات ورزشی
         const allRecords = [
             { nationalCode: "4420455861", fullName: "فاطمه رمضان پور", personnelCode: "44031447", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/20", courseHours: "4", docNumber: "1529/ص/1404" },
             { nationalCode: "44030327", fullName: "سیده سمیرا جلالزاده", personnelCode: "44030327", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/20", courseHours: "4", docNumber: "1529/ص/1404" },
@@ -485,68 +487,87 @@
             { nationalCode: "4420843217", fullName: "علیرضا میرعلائی", personnelCode: "94026999", courseTitle: "مسابقات ورزشی کارکنان آموزش و پرورش استثنایی", courseDate: "1404/11/12", courseHours: "4", docNumber: "1529/ص/1404" }
         ];
 
-        let matchedRecords = [];
         let selectedRecord = null;
 
         function normalizeDigits(str) {
             if (!str) return '';
+            let s = String(str);
             const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
             const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
             for (let i = 0; i < 10; i++) {
-                str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+                s = s.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
             }
-            return str.trim();
+            return s.trim();
         }
 
         function handleSearch(targetCode = null) {
-            let inputCode = targetCode || document.getElementById('nationalCodeInput').value;
-            inputCode = normalizeDigits(inputCode);
-            const errorDiv = document.getElementById('errorMsg');
-            
-            if (!inputCode) {
-                errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
-                return;
+            try {
+                let inputVal = targetCode || document.getElementById('nationalCodeInput').value;
+                let cleanInput = normalizeDigits(inputVal);
+                const errorDiv = document.getElementById('errorMsg');
+                
+                if (!cleanInput) {
+                    errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
+                    return;
+                }
+
+                // جستجوی دقیق کد ملی با تطبیق رشته و اعداد
+                selectedRecord = allRecords.find(p => {
+                    let recCode = normalizeDigits(p.nationalCode);
+                    return recCode === cleanInput || parseInt(recCode, 10) === parseInt(cleanInput, 10);
+                });
+
+                if (!selectedRecord) {
+                    errorDiv.innerText = 'کد ملی وارد شده در لیست شرکت‌کنندگان مسابقات ورزشی یافت نشد.';
+                    return;
+                }
+
+                errorDiv.innerText = '';
+
+                // درج اطلاعات در گواهی
+                document.getElementById('dispName').innerText = selectedRecord.fullName;
+                document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode;
+                document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle;
+                document.getElementById('dispDate').innerText = selectedRecord.courseDate;
+                document.getElementById('dispHours').innerText = selectedRecord.courseHours;
+                document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
+                document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
+                
+                document.getElementById('searchBox').style.display = 'none';
+                document.getElementById('certWrapper').style.display = 'flex';
+
+                // ساخت QR Code و بارکد به‌صورت ایمن
+                try {
+                    const qrElem = document.getElementById("qrcode");
+                    qrElem.innerHTML = "";
+                    if (typeof QRCode !== 'undefined') {
+                        new QRCode(qrElem, {
+                            text: window.location.href.split('?')[0] + "?code=" + selectedRecord.nationalCode,
+                            width: 65,
+                            height: 65
+                        });
+                    }
+                } catch (e) {
+                    console.log('QRCode error:', e);
+                }
+
+                try {
+                    if (typeof JsBarcode !== 'undefined') {
+                        JsBarcode("#barcode", "YZD-" + selectedRecord.nationalCode, { 
+                            format: "CODE128", 
+                            width: 1.3, 
+                            height: 30, 
+                            displayValue: true,
+                            fontSize: 10
+                        });
+                    }
+                } catch (e) {
+                    console.log('JsBarcode error:', e);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('خطایی رخ داد: ' + err.message);
             }
-
-            // پیدا کردن رکورد مربوط به این کد ملی
-            selectedRecord = allRecords.find(p => normalizeDigits(p.nationalCode) === inputCode);
-
-            if (!selectedRecord) {
-                errorDiv.innerText = 'کد ملی وارد شده در لیست شرکت‌کنندگان مسابقات ورزشی یافت نشد.';
-                return;
-            }
-
-            errorDiv.innerText = '';
-
-            // نمایش گواهی و درج اطلاعات
-            document.getElementById('dispName').innerText = selectedRecord.fullName;
-            document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode;
-            document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle;
-            document.getElementById('dispDate').innerText = selectedRecord.courseDate;
-            document.getElementById('dispHours').innerText = selectedRecord.courseHours;
-            
-            // درج تاریخ و شماره نامه در بالای سمت چپ
-            document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
-            document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
-            
-            document.getElementById('searchBox').style.display = 'none';
-            document.getElementById('certWrapper').style.display = 'flex';
-
-            // تولید QR Code و بارکد
-            document.getElementById("qrcode").innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), {
-                text: window.location.origin + window.location.pathname + "?code=" + selectedRecord.nationalCode,
-                width: 65,
-                height: 65
-            });
-            
-            JsBarcode("#barcode", "YZD-" + selectedRecord.nationalCode, { 
-                format: "CODE128", 
-                width: 1.3, 
-                height: 30, 
-                displayValue: true,
-                fontSize: 10
-            });
         }
 
         function resetSearch() {
@@ -568,7 +589,10 @@
 
         function downloadAsImage() {
             const certElement = document.getElementById('certificate');
-            
+            if (typeof html2canvas === 'undefined') {
+                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. لطفاً چند لحظه بعد تلاش کنید.');
+                return;
+            }
             html2canvas(certElement, {
                 scale: 2,
                 useCORS: true,
