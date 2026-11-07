@@ -1107,6 +1107,153 @@
         }
         @media (max-width: 600px) { .header-logo-badge img { width: 104px; } }
 
+
+        /* ============================================================
+           نسخه‌ی ۲: سربرگ جمع‌وجور، تمرکز روی کادر کد ملی، فهرست کارتی، جلوه‌ها
+           ============================================================ */
+
+        /* ---------- سربرگ فشرده ---------- */
+        .main-container { gap: 16px; }
+        .portal-header {
+            padding: 18px 20px 14px !important;
+            background-size: 170% 170%;
+            animation: riseIn .7s var(--ease) both, gradShift 16s ease-in-out 1s infinite !important;
+        }
+        @keyframes gradShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .header-logo-badge { margin: 0 auto 4px !important; }
+        .header-logo-badge img { width: 74px !important; max-height: 96px !important; }
+        .portal-header h1 { font-size: 24px !important; line-height: 1.5 !important; margin: 0 0 2px !important; }
+        .portal-header p { font-size: 36px !important; line-height: 1.65 !important; margin: 0 !important; }
+        .portal-header > .orbs { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .orbs i { position: absolute; border-radius: 50%; background: radial-gradient(circle at 32% 30%, rgba(255,255,255,.24), rgba(255,255,255,0) 68%); }
+        .orbs i:nth-child(1) { width: 190px; height: 190px; left: -50px; top: -70px; animation: drift1 11s ease-in-out infinite; }
+        .orbs i:nth-child(2) { width: 120px; height: 120px; right: 8%; top: 38%; animation: drift2 9s ease-in-out infinite; }
+        .orbs i:nth-child(3) { width: 80px; height: 80px; left: 22%; bottom: -26px; animation: drift1 13s ease-in-out 1s infinite reverse; }
+        .orbs i:nth-child(4) { width: 54px; height: 54px; right: 26%; top: -12px; animation: drift2 10s ease-in-out .5s infinite reverse; }
+        @keyframes drift1 { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(26px, 18px); } }
+        @keyframes drift2 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-22px, 14px) scale(1.15); } }
+        .nast-word { display: inline-block; animation: wordIn .8s var(--ease) backwards; animation-delay: calc(.45s + var(--w) * .13s); }
+        @keyframes wordIn { from { opacity: 0; transform: translateY(16px); filter: blur(7px); } to { opacity: 1; transform: none; filter: blur(0); } }
+
+        /* ---------- کادر کد ملی: برجسته‌تر و کم‌ارتفاع‌تر ---------- */
+        @property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+        @keyframes spinAng { to { --ang: 360deg; } }
+        .search-box {
+            padding: 26px 24px 22px !important;
+            border: 2.5px solid transparent !important;
+            background: linear-gradient(#fff, #fff) padding-box,
+                        conic-gradient(from var(--ang), #174ea6, #8cc0f5, #d9b45a, #2878c8, #174ea6) border-box !important;
+            box-shadow: 0 18px 44px rgba(23,78,166,.20) !important;
+            animation: riseIn .7s var(--ease) .18s both, spinAng 8s linear infinite !important;
+        }
+        .search-box h2 { font-size: 26px !important; margin-bottom: 8px !important; }
+        .search-box > #nationalCodeStep > p { font-size: 17px !important; margin-bottom: 12px !important; }
+        #nationalCodeInput {
+            font-size: 26px !important; padding: 15px !important; letter-spacing: 5px !important;
+            max-width: 460px !important; width: 90% !important; margin-bottom: 14px !important;
+            animation: inputPulse 2.6s ease-in-out 1.4s infinite;
+        }
+        #nationalCodeInput:focus { animation: none; }
+        @keyframes inputPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(23,78,166,.0); }
+            50%      { box-shadow: 0 0 0 7px rgba(23,78,166,.13); }
+        }
+        #searchBtn { font-size: 21px !important; padding: 14px 44px !important; }
+        .privacy-note {
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            margin: 14px 0 0; font-size: 15px; color: #6b7280;
+        }
+        .privacy-note .ico { color: #059669; }
+
+        /* ---------- کارت اصالت: باریک و افقی ---------- */
+        .stat-card {
+            display: grid !important; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center;
+            text-align: right !important; padding: 9px 22px !important; max-width: 380px !important; width: auto !important;
+        }
+        .stat-card .stat-icon { grid-row: 1 / 3; margin: 0 !important; }
+        .stat-card .stat-title { font-size: 14px !important; margin: 0 !important; line-height: 1.3 !important; }
+        .stat-card .stat-value { font-size: 16px !important; line-height: 1.4 !important; }
+        .guide-box { padding: 16px 18px !important; }
+
+        /* ---------- فهرست کارتی گواهی‌ها ---------- */
+        .user-welcome { font-size: 23px !important; margin-bottom: 14px !important; }
+        .gal-stats { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+        .gal-stat {
+            min-width: 150px; padding: 8px 22px; border-radius: 12px; background: #eff6ff; border: 1px solid #cfe0f7;
+        }
+        .gal-stat b { display: block; font-family: 'B Titr', Tahoma; font-size: 32px; color: var(--blue); line-height: 1.3; }
+        .gal-stat span { font-size: 15px; color: #4b5563; }
+        .search-box #courseFilter { width: 100%; max-width: none; font-size: 18px !important; padding: 10px !important; letter-spacing: 0 !important; margin-bottom: 14px !important; }
+        .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; text-align: right; margin-bottom: 18px; }
+        .cert-card {
+            position: relative; display: flex; flex-direction: column; gap: 10px; padding: 16px 16px 14px;
+            background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+            box-shadow: 0 6px 18px rgba(16,42,86,.07);
+            transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+            transition: transform .2s ease-out, box-shadow .25s, border-color .25s;
+            animation: riseIn .55s var(--ease) backwards; animation-delay: calc(var(--i) * 90ms);
+        }
+        .cert-card::before { content: ""; position: absolute; top: 0; right: 0; left: 0; height: 4px; background: linear-gradient(90deg, #174ea6, #8cc0f5, #d9b45a); }
+        .cert-card::after {
+            content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%;
+            background: linear-gradient(100deg, transparent, rgba(40,120,200,.10), transparent); transform: skewX(-18deg);
+            transition: left .7s ease; pointer-events: none;
+        }
+        .cert-card:hover { box-shadow: 0 16px 34px rgba(23,78,166,.20); border-color: #9dbbe4; }
+        .cert-card:hover::after { left: 130%; }
+        .cc-top { display: flex; align-items: center; gap: 10px; }
+        .cc-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--blue-soft); color: var(--blue); display: flex; align-items: center; justify-content: center; flex: 0 0 38px; }
+        .cc-icon svg { width: 22px; height: 22px; }
+        .cc-type { font-family: 'B Titr', Tahoma; font-size: 15px; color: #9a5b13; }
+        .cc-title { font-family: 'B Titr', Tahoma; font-size: 19px; line-height: 1.7; color: var(--navy); margin: 0; flex: 1; }
+        .cc-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { background: #f3f7fc; border: 1px solid #dbe7f6; color: #374151; font-size: 15px; padding: 2px 12px; border-radius: 999px; }
+        .cc-letter { font-size: 15px; color: #4b5563; }
+        .cc-letter.warn { color: #b45309; }
+        .search-box .card-btn {
+            width: 100%; min-height: 44px; padding: 10px 14px !important; font-size: 17px !important;
+            background: var(--blue); box-shadow: 0 4px 12px rgba(23,78,166,.25);
+        }
+        .search-box .card-btn:hover { background: #1d4ed8; }
+        .search-box .card-btn:disabled { background: #9ca3af; box-shadow: none; cursor: not-allowed; transform: none; }
+        .gal-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .search-box .gal-actions .btn-primary { background: #059669; box-shadow: 0 4px 12px rgba(5,150,105,.3); font-size: 18px; }
+        .search-box .gal-actions .btn-primary:hover { background: #047857; }
+        .search-box .gal-actions .btn-secondary { font-size: 18px; background: #4b5563; box-shadow: none; }
+
+        /* ---------- افکت ورود گواهی: مهر و امضا ---------- */
+        .certificate-wrapper.reveal .seal-img { animation: stampIn .75s cubic-bezier(.2,1.4,.4,1) .55s backwards; }
+        .certificate-wrapper.reveal .signature-img { animation: signWipe 1.3s ease .2s backwards; }
+        @keyframes stampIn { from { scale: 2.2; rotate: -18deg; opacity: 0; } 60% { scale: .94; opacity: 1; } to { scale: 1; rotate: 0deg; opacity: 1; } }
+        @keyframes signWipe { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+
+        /* ---------- کانفتی و پیشرفت ---------- */
+        .confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+        .progress-overlay {
+            position: fixed; inset: 0; z-index: 70; display: none; align-items: center; justify-content: center;
+            background: rgba(16,42,86,.55); backdrop-filter: blur(5px);
+        }
+        .progress-overlay.show { display: flex; animation: fadeIn .3s ease; }
+        .progress-card { background: #fff; border-radius: 16px; padding: 28px 34px; width: min(92vw, 400px); text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+        .progress-card p { font-size: 20px; color: var(--navy); margin: 6px 0 16px; }
+        .progress-bar { height: 10px; background: #dbeafe; border-radius: 999px; overflow: hidden; }
+        .progress-bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #174ea6, #2878c8, #8cc0f5); background-size: 200% 100%; animation: barFlow 1.2s linear infinite; transition: width .35s ease; }
+        @keyframes barFlow { to { background-position: -200% 0; } }
+
+        @media (max-width: 700px) {
+            .cert-grid { grid-template-columns: 1fr; }
+            .portal-header { padding: 14px 14px 10px !important; }
+            .header-logo-badge img { width: 62px !important; }
+            .portal-header h1 { font-size: 20px !important; }
+            .portal-header p { font-size: 28px !important; }
+            .search-box { padding: 22px 14px 18px !important; }
+            .search-box h2 { font-size: 22px !important; }
+            #nationalCodeInput { font-size: 22px !important; letter-spacing: 3px !important; width: 100% !important; }
+            .gal-stat { min-width: 130px; padding: 6px 14px; }
+            .stat-card { max-width: 100% !important; }
+        }
+        @media print { .confetti, .progress-overlay { display: none !important; } }
+
 </style>
 </head>
 <body>
@@ -1122,18 +1269,10 @@
         
         <!-- هدر جامع -->
         <div class="portal-header">
+            <div class="orbs" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
             <div class="header-logo-badge"><img id="headerLogo" alt="لوگوی اداره آموزش و پرورش استثنایی"></div>
             <h1>سامانه جامع صدور و اعتبارسنجی گواهی‌نامه‌ها</h1>
             <p>اداره آموزش و پرورش استثنایی استان یزد</p>
-        </div>
-
-        <!-- کارت اصالت مدارک -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
-                <div class="stat-title">اصالت مدارک</div>
-                <div class="stat-value">تأییدیه دیجیتال (QR)</div>
-            </div>
         </div>
 
         <!-- کادر استعلام -->
@@ -1149,23 +1288,35 @@
                     <span id="btnText"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg> بررسی و استعلام دوره‌ها</span>
                     <span id="btnSpinner" class="spinner"></span>
                 </button>
+                <div class="privacy-note"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> کد ملی فقط برای جستجوی گواهی‌های شما استفاده می‌شود.</div>
             </div>
 
             <!-- گام ۲: انتخاب دوره (پس از تایید کد ملی) -->
             <div id="courseSelectionStep">
-                <div class="user-welcome" id="userWelcomeText">همکار گرامی خوش آمدید</div>
-                <p style="color:#4b5563; font-size:15px; margin-bottom:10px;">لطفاً عنوان دوره یا رویداد مورد نظر را انتخاب کنید:</p>
-                <select id="courseSelectBox"></select>
-                <br>
-                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                    <button type="button" class="btn-primary" onclick="showSelectedCertificate()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg> مشاهده و دریافت گواهی</button>
+                <div class="user-welcome" id="userWelcomeText"></div>
+                <div class="gal-stats">
+                    <div class="gal-stat"><b id="statCount">0</b><span>گواهی ثبت‌شده</span></div>
+                    <div class="gal-stat"><b id="statHours">0</b><span>مجموع ساعت آموزشی</span></div>
+                </div>
+                <input type="text" id="courseFilter" placeholder="جستجو در عنوان دوره‌ها…" oninput="filterCards(this.value)" aria-label="جستجو در دوره‌ها" style="display:none">
+                <div class="cert-grid" id="certGrid"></div>
+                <div class="gal-actions">
+                    <button type="button" class="btn-primary" id="downloadAllBtn" onclick="downloadAllCertificates()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg> دانلود همه گواهی‌ها (یک PDF)</button>
                     <button type="button" class="btn-secondary" onclick="resetSearch()">تغییر کد ملی</button>
                 </div>
             </div>
-
             <div id="errorMsg" class="error-msg" role="alert" aria-live="polite"></div>
         </div>
 
+
+        <!-- کارت اصالت مدارک -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+                <div class="stat-title">اصالت مدارک</div>
+                <div class="stat-value">تأییدیه دیجیتال (QR)</div>
+            </div>
+        </div>
         <!-- راهنما -->
         <div class="guide-box">
             <h3>راهنمای سریع دریافت گواهی</h3>
@@ -1264,10 +1415,11 @@
 
         <div class="action-container">
             <div class="action-btns">
-                <button class="btn-secondary" type="button" onclick="backToCourseSelection()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> تغییر دوره / جستجو</button>
+                <button class="btn-secondary" type="button" onclick="backToCourseSelection()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> بازگشت به فهرست گواهی‌ها</button>
                 <button class="btn-primary" type="button" onclick="downloadAsImage()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> دانلود تصویر (PNG)</button>
                 <button class="btn-success" type="button" onclick="downloadAsPDF()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg> دانلود فایل (PDF)</button>
                 <button class="btn-ghost" type="button" onclick="window.print()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> چاپ گواهی</button>
+                <button class="btn-ghost" type="button" onclick="copyVerifyLink()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg> کپی لینک تأیید</button>
             </div>
         </div>
     </div>
@@ -1275,6 +1427,10 @@
     <!-- فوتر انتهای صفحه -->
     <div class="portal-footer">
         کلیه حقوق این سامانه متعلق به <strong>اداره آموزش و پرورش استثنایی استان یزد</strong> می‌باشد.<span id="footerYear"></span>
+    </div>
+
+    <div id="progressOverlay" class="progress-overlay" role="alertdialog" aria-live="polite">
+        <div class="progress-card"><div class="spin-lg"></div><p id="progressText">در حال آماده‌سازی…</p><div class="progress-bar"><i id="progressFill"></i></div></div>
     </div>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -1450,26 +1606,7 @@
                     console.warn('برخی فیلدهای نام یا دوره از API پیدا نشدند. کلیدهای پاسخ را بررسی کنید.', rawRecords);
                 }
 
-                // پر کردن کادر انتخابی دوره‌ها (افزودن گزینه غیرفعال پیش‌فرض)
-                const courseSelect = document.getElementById('courseSelectBox');
-                courseSelect.innerHTML = '';
-
-                const defaultOption = document.createElement('option');
-                defaultOption.value = "";
-                defaultOption.innerText = "-- لطفاً عنوان دوره را انتخاب کنید --";
-                defaultOption.disabled = true;
-                defaultOption.selected = true;
-                courseSelect.appendChild(defaultOption);
-
-                matchedRecords.forEach((rec, idx) => {
-                    const opt = document.createElement('option');
-                    opt.value = rec.id || idx;
-                    opt.innerText = `${rec.courseTitle} (${rec.courseDate})`;
-                    courseSelect.appendChild(opt);
-                });
-
-                document.getElementById('userWelcomeText').innerText =
-                    `همکار گرامی ${matchedRecords[0].fullName || ''} خوش آمدید`;
+                renderGallery();
                 document.getElementById('nationalCodeStep').style.display = 'none';
                 document.getElementById('courseSelectionStep').style.display = 'block';
                 document.getElementById('searchBox').classList.add('step-two');
@@ -1484,72 +1621,9 @@
             }
         }
 
-        // گام ۲: نمایش گواهی دوره انتخاب شده
-        function showSelectedCertificate() {
-            const errorDiv = document.getElementById('errorMsg');
-            const selectedId = document.getElementById('courseSelectBox').value;
-
-            if (!selectedId) {
-                errorDiv.innerText = 'لطفاً یک عنوان دوره را از لیست بالا انتخاب کنید.';
-                return;
-            }
-
-            errorDiv.innerText = '';
-            selectedRecord = matchedRecords.find(r => (r.id ? r.id === selectedId : true)) || matchedRecords[0];
-
-            // بدون شماره نامه، گواهی صادر نمی‌شود (سند رسمی نباید شماره پیش‌فرض داشته باشد)
-            if (!selectedRecord.docNumber) {
-                showError('شماره نامه‌ی این گواهی هنوز ثبت نشده است. لطفاً با اداره آموزش و پرورش استثنایی تماس بگیرید.');
-                selectedRecord = null;
-                return;
-            }
-
-            document.getElementById('dispCertMainTitle').innerText = selectedRecord.certHeaderTitle || 'گواهی حضور';
-            document.getElementById('dispName').innerText = selectedRecord.fullName || 'نام ثبت نشده';
-            document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode || 'ثبت نشده';
-            document.getElementById('dispCourseTitle').innerText = selectedRecord.courseTitle || 'عنوان دوره ثبت نشده';
-            document.getElementById('dispDate').innerText = selectedRecord.courseDate || 'ثبت نشده';
-            document.getElementById('dispHours').innerText = selectedRecord.courseHours || 'ثبت نشده';
-            document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
-            document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber;
-            
-            document.getElementById('portalHome').style.display = 'none';
-            document.getElementById('verificationBadge').style.display = 'block';
-            document.getElementById('certWrapper').style.display = 'flex';
-
-            const qrElem = document.getElementById("qrcode");
-            qrElem.innerHTML = "";
-            try {
-                if (typeof QRCode !== 'undefined') {
-                    new QRCode(qrElem, {
-                        text: verifyUrlFor(selectedRecord),
-                        width: 70,
-                        height: 70,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
-                }
-            } catch (e) {
-                console.log('QRCode error:', e);
-            }
-
-            try {
-                if (typeof JsBarcode !== 'undefined') {
-                    JsBarcode("#barcode", selectedRecord.certId || selectedRecord.docNumber, { 
-                        format: "CODE128", 
-                        width: 1.3, 
-                        height: 30, 
-                        displayValue: true,
-                        fontSize: 10
-                    });
-                }
-            } catch (e) {
-                console.log('JsBarcode error:', e);
-            }
-        }
-
+        
         function backToCourseSelection() {
+            window.scrollTo({ top: 0 });
             document.getElementById('certWrapper').style.display = 'none';
             document.getElementById('verificationBadge').style.display = 'none';
             document.getElementById('portalHome').style.display = 'flex';
@@ -1584,235 +1658,12 @@
             }
         };
 
-        function downloadAsImage() {
-            const certElement = document.getElementById('certificate');
-            showToast('در حال آماده‌سازی فایل…', 'info');
-            if (typeof html2canvas === 'undefined') {
-                showToast('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. چند لحظه بعد دوباره تلاش کنید.', 'error');
-                return;
-            }
-
-            const originalTransform = certElement.style.transform;
-            const originalMargin = certElement.style.marginBottom;
-            certElement.style.transform = 'none';
-            certElement.style.marginBottom = '0';
-
-            html2canvas(certElement, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                windowWidth: Math.max(document.documentElement.clientWidth, 1000),
-                onclone: clonedDoc => {
-                    // نسخه‌ی کلون‌شده انیمیشن‌ها را از صفر شروع می‌کند و گواهی کمرنگ ثبت می‌شود؛ انیمیشن‌ها را خاموش می‌کنیم
-                    const noAnim = clonedDoc.createElement('style');
-                    noAnim.textContent = '*, *::before, *::after { animation: none !important; transition: none !important; }';
-                    clonedDoc.head.appendChild(noAnim);
-                    const clonedHeaderCenter = clonedDoc.querySelector('.header-center');
-                    if (clonedHeaderCenter) {
-                        clonedHeaderCenter.style.setProperty('position', 'absolute', 'important');
-                        clonedHeaderCenter.style.setProperty('top', '20px', 'important');
-                        clonedHeaderCenter.style.setProperty('left', '0', 'important');
-                        clonedHeaderCenter.style.setProperty('right', '0', 'important');
-                        clonedHeaderCenter.style.setProperty('width', 'auto', 'important');
-                        clonedHeaderCenter.style.setProperty('transform', 'none', 'important');
-                        clonedHeaderCenter.style.setProperty('text-align', 'center', 'important');
-                        clonedHeaderCenter.style.setProperty('margin', '0', 'important');
-                    }
-                    const clonedBismillah = clonedDoc.querySelector('.header-center .bismillah');
-                    if (clonedBismillah) {
-                        clonedBismillah.style.setProperty('display', 'block', 'important');
-                        clonedBismillah.style.setProperty('width', '100%', 'important');
-                        clonedBismillah.style.setProperty('text-align', 'center', 'important');
-                        clonedBismillah.style.setProperty('margin', '0 auto', 'important');
-                    }
-                    const clonedMeta = clonedDoc.querySelector('.header-content > .header-meta');
-                    if (clonedMeta) {
-                        clonedMeta.style.setProperty('width', '170px', 'important');
-                        clonedMeta.style.setProperty('padding', '4px 7px', 'important');
-                        clonedMeta.style.setProperty('font-size', '17px', 'important');
-                        clonedMeta.style.setProperty('line-height', '1.45', 'important');
-                    }
-                    // Preserve the exceptional-education logo's intrinsic aspect ratio in exports.
-                    // html2canvas may stretch images when width and height are both forced.
-                    const clonedHeaderLogos = clonedDoc.querySelectorAll('.header-content > .header-logo-box .header-logo');
-                    clonedHeaderLogos.forEach(img => {
-                        const isRightLogo = img.closest('.header-logo-box') === clonedDoc.querySelector('.header-content > .header-logo-box:last-of-type');
-                        const maxSide = isRightLogo ? 108 : 118;
-                        const naturalW = img.naturalWidth || img.width || maxSide;
-                        const naturalH = img.naturalHeight || img.height || maxSide;
-                        const ratio = naturalW / naturalH;
-                        let w = maxSide, h = maxSide;
-                        if (ratio >= 1) h = maxSide / ratio;
-                        else w = maxSide * ratio;
-                        img.style.setProperty('width', `${w}px`, 'important');
-                        img.style.setProperty('height', `${h}px`, 'important');
-                        img.style.setProperty('min-width', '0', 'important');
-                        img.style.setProperty('min-height', '0', 'important');
-                        img.style.setProperty('max-width', `${maxSide}px`, 'important');
-                        img.style.setProperty('max-height', `${maxSide}px`, 'important');
-                        img.style.setProperty('object-fit', 'contain', 'important');
-                        img.style.setProperty('flex-shrink', '0', 'important');
-                    });
-                    const clonedSignature = clonedDoc.getElementById('signatureImg');
-                    if (clonedSignature) {
-                        clonedSignature.style.setProperty('height', '180px', 'important');
-                        clonedSignature.style.setProperty('max-height', '180px', 'important');
-                        clonedSignature.style.setProperty('max-width', '440px', 'important');
-                        clonedSignature.style.setProperty('object-fit', 'contain', 'important');
-                    }
-                    const clonedSeal = clonedDoc.getElementById('sealImg');
-                    if (clonedSeal) {
-                        clonedSeal.style.setProperty('width', '108px', 'important');
-                        clonedSeal.style.setProperty('height', '108px', 'important');
-                        clonedSeal.style.setProperty('min-width', '108px', 'important');
-                        clonedSeal.style.setProperty('min-height', '108px', 'important');
-                        clonedSeal.style.setProperty('max-width', '108px', 'important');
-                        clonedSeal.style.setProperty('max-height', '108px', 'important');
-                        clonedSeal.style.setProperty('object-fit', 'contain', 'important');
-                        clonedSeal.style.setProperty('position', 'absolute', 'important');
-                        clonedSeal.style.setProperty('left', '0', 'important');
-                        clonedSeal.style.setProperty('top', '50%', 'important');
-                        clonedSeal.style.setProperty('transform', 'translateY(-50%)', 'important');
-                        clonedSeal.style.setProperty('margin', '0', 'important');
-                    }
-                }
-            }).then(canvas => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-
-                const link = document.createElement('a');
-                link.download = certFileName() + '.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showToast('دانلود تصویر آغاز شد.', 'success');
-            }).catch(err => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-                console.error(err);
-                showToast('خطا در ساخت فایل. لطفاً دوباره تلاش کنید.', 'error');
-            });
-        }
-
-        function downloadAsPDF() {
-            const certElement = document.getElementById('certificate');
-            showToast('در حال آماده‌سازی فایل…', 'info');
-            if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
-                showToast('کتابخانه‌های PDF هنوز بارگذاری نشده‌اند. چند لحظه بعد دوباره تلاش کنید.', 'error');
-                return;
-            }
-
-            const originalTransform = certElement.style.transform;
-            const originalMargin = certElement.style.marginBottom;
-            certElement.style.transform = 'none';
-            certElement.style.marginBottom = '0';
-
-            html2canvas(certElement, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                windowWidth: Math.max(document.documentElement.clientWidth, 1000),
-                onclone: clonedDoc => {
-                    // نسخه‌ی کلون‌شده انیمیشن‌ها را از صفر شروع می‌کند و گواهی کمرنگ ثبت می‌شود؛ انیمیشن‌ها را خاموش می‌کنیم
-                    const noAnim = clonedDoc.createElement('style');
-                    noAnim.textContent = '*, *::before, *::after { animation: none !important; transition: none !important; }';
-                    clonedDoc.head.appendChild(noAnim);
-                    const clonedHeaderCenter = clonedDoc.querySelector('.header-center');
-                    if (clonedHeaderCenter) {
-                        clonedHeaderCenter.style.setProperty('position', 'absolute', 'important');
-                        clonedHeaderCenter.style.setProperty('top', '20px', 'important');
-                        clonedHeaderCenter.style.setProperty('left', '0', 'important');
-                        clonedHeaderCenter.style.setProperty('right', '0', 'important');
-                        clonedHeaderCenter.style.setProperty('width', 'auto', 'important');
-                        clonedHeaderCenter.style.setProperty('transform', 'none', 'important');
-                        clonedHeaderCenter.style.setProperty('text-align', 'center', 'important');
-                        clonedHeaderCenter.style.setProperty('margin', '0', 'important');
-                    }
-                    const clonedBismillah = clonedDoc.querySelector('.header-center .bismillah');
-                    if (clonedBismillah) {
-                        clonedBismillah.style.setProperty('display', 'block', 'important');
-                        clonedBismillah.style.setProperty('width', '100%', 'important');
-                        clonedBismillah.style.setProperty('text-align', 'center', 'important');
-                        clonedBismillah.style.setProperty('margin', '0 auto', 'important');
-                    }
-                    const clonedMeta = clonedDoc.querySelector('.header-content > .header-meta');
-                    if (clonedMeta) {
-                        clonedMeta.style.setProperty('width', '170px', 'important');
-                        clonedMeta.style.setProperty('padding', '4px 7px', 'important');
-                        clonedMeta.style.setProperty('font-size', '17px', 'important');
-                        clonedMeta.style.setProperty('line-height', '1.45', 'important');
-                    }
-                    // Preserve the exceptional-education logo's intrinsic aspect ratio in exports.
-                    // html2canvas may stretch images when width and height are both forced.
-                    const clonedHeaderLogos = clonedDoc.querySelectorAll('.header-content > .header-logo-box .header-logo');
-                    clonedHeaderLogos.forEach(img => {
-                        const isRightLogo = img.closest('.header-logo-box') === clonedDoc.querySelector('.header-content > .header-logo-box:last-of-type');
-                        const maxSide = isRightLogo ? 108 : 118;
-                        const naturalW = img.naturalWidth || img.width || maxSide;
-                        const naturalH = img.naturalHeight || img.height || maxSide;
-                        const ratio = naturalW / naturalH;
-                        let w = maxSide, h = maxSide;
-                        if (ratio >= 1) h = maxSide / ratio;
-                        else w = maxSide * ratio;
-                        img.style.setProperty('width', `${w}px`, 'important');
-                        img.style.setProperty('height', `${h}px`, 'important');
-                        img.style.setProperty('min-width', '0', 'important');
-                        img.style.setProperty('min-height', '0', 'important');
-                        img.style.setProperty('max-width', `${maxSide}px`, 'important');
-                        img.style.setProperty('max-height', `${maxSide}px`, 'important');
-                        img.style.setProperty('object-fit', 'contain', 'important');
-                        img.style.setProperty('flex-shrink', '0', 'important');
-                    });
-                    const clonedSignature = clonedDoc.getElementById('signatureImg');
-                    if (clonedSignature) {
-                        clonedSignature.style.setProperty('height', '180px', 'important');
-                        clonedSignature.style.setProperty('max-height', '180px', 'important');
-                        clonedSignature.style.setProperty('max-width', '440px', 'important');
-                        clonedSignature.style.setProperty('object-fit', 'contain', 'important');
-                    }
-                    const clonedSeal = clonedDoc.getElementById('sealImg');
-                    if (clonedSeal) {
-                        clonedSeal.style.setProperty('width', '108px', 'important');
-                        clonedSeal.style.setProperty('height', '108px', 'important');
-                        clonedSeal.style.setProperty('min-width', '108px', 'important');
-                        clonedSeal.style.setProperty('min-height', '108px', 'important');
-                        clonedSeal.style.setProperty('max-width', '108px', 'important');
-                        clonedSeal.style.setProperty('max-height', '108px', 'important');
-                        clonedSeal.style.setProperty('object-fit', 'contain', 'important');
-                        clonedSeal.style.setProperty('position', 'absolute', 'important');
-                        clonedSeal.style.setProperty('left', '0', 'important');
-                        clonedSeal.style.setProperty('top', '50%', 'important');
-                        clonedSeal.style.setProperty('transform', 'translateY(-50%)', 'important');
-                        clonedSeal.style.setProperty('margin', '0', 'important');
-                    }
-                }
-            }).then(canvas => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-
-                try {
-                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF('l', 'mm', 'a4');
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = pdf.internal.pageSize.getHeight();
-                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    pdf.save(certFileName() + '.pdf');
-                    showToast('دانلود فایل PDF آغاز شد.', 'success');
-                } catch (e) {
-                    console.error(e);
-                    showToast('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر» استفاده کنید.', 'error');
-                }
-            }).catch(err => {
-                certElement.style.transform = originalTransform;
-                certElement.style.marginBottom = originalMargin;
-                console.error(err);
-                showToast('خطا در ساخت فایل. لطفاً دوباره تلاش کنید.', 'error');
-            });
-        }
+        
 
         /* ================= افزودنی‌ها: اعتبارسنجی، تأیید اصالت، اعلان‌ها ================= */
 
         function initPage() {
+            initFx();
             const logoSrc = document.getElementById('logoLeft').src;
             const headerLogo = document.getElementById('headerLogo');
             const watermark = document.getElementById('certWatermark');
@@ -1953,6 +1804,376 @@
             document.getElementById('verifyPanel').style.display = 'none';
             document.getElementById('portalHome').style.display = 'flex';
             window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+
+        /* ================= نسخه‌ی ۲: فهرست کارتی گواهی‌ها، دانلود یک‌جا، جلوه‌ها ================= */
+
+        const ICO_EYE = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+        const ICO_DOC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>';
+
+        function initFx() {
+            // نمایش کلمه‌به‌کلمه‌ی عنوان نستعلیق
+            const p = document.querySelector('.portal-header p');
+            if (p && !p.dataset.split) {
+                p.dataset.split = '1';
+                const words = p.textContent.trim().split(/\s+/);
+                p.textContent = '';
+                words.forEach(function (w, i) {
+                    const s = document.createElement('span');
+                    s.className = 'nast-word';
+                    s.style.setProperty('--w', i);
+                    s.textContent = w;
+                    p.appendChild(s);
+                    if (i < words.length - 1) p.appendChild(document.createTextNode(' '));
+                });
+            }
+            if (window.innerWidth > 800 && !window.location.search) {
+                const inp = document.getElementById('nationalCodeInput');
+                if (inp) inp.focus({ preventScroll: true });
+            }
+        }
+
+        function countUp(el, target) {
+            const dec = Number.isInteger(target) ? 0 : 1;
+            const t0 = performance.now(), dur = 900;
+            function f(t) {
+                const k = Math.min(1, (t - t0) / dur);
+                const e = 1 - Math.pow(1 - k, 3);
+                el.textContent = (target * e).toFixed(dec);
+                if (k < 1) requestAnimationFrame(f); else el.textContent = target.toFixed(dec);
+            }
+            requestAnimationFrame(f);
+        }
+
+        function launchConfetti() {
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const c = document.createElement('canvas');
+            c.className = 'confetti';
+            c.width = window.innerWidth; c.height = window.innerHeight;
+            document.body.appendChild(c);
+            const ctx = c.getContext('2d');
+            const colors = ['#174ea6', '#2878c8', '#8cc0f5', '#d9b45a', '#ffffff', '#059669'];
+            const ps = [];
+            for (let i = 0; i < 130; i++) {
+                ps.push({
+                    x: c.width / 2 + (Math.random() - .5) * 180, y: c.height * .32,
+                    vx: (Math.random() - .5) * 15, vy: -Math.random() * 13 - 4,
+                    s: 6 + Math.random() * 6, r: Math.random() * 6, vr: (Math.random() - .5) * .4,
+                    c: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+            const t0 = performance.now(), total = 2800;
+            function frame(t) {
+                ctx.clearRect(0, 0, c.width, c.height);
+                const fade = Math.max(0, 1 - (t - t0) / total);
+                ps.forEach(function (p) {
+                    p.vy += .36; p.vx *= .992; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+                    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+                    ctx.globalAlpha = fade; ctx.fillStyle = p.c;
+                    ctx.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .6);
+                    ctx.restore();
+                });
+                if (t - t0 < total) requestAnimationFrame(frame); else c.remove();
+            }
+            requestAnimationFrame(frame);
+        }
+
+        // ---------- فهرست کارتی گواهی‌ها ----------
+        function mk(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text !== undefined) e.textContent = text;
+            return e;
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('certGrid');
+            grid.innerHTML = '';
+            let hours = 0;
+            matchedRecords.forEach(function (rec, i) {
+                const h = parseFloat(normalizeDigits(rec.courseHours).replace(/[^\d.]/g, ''));
+                if (!isNaN(h)) hours += h;
+
+                const card = mk('article', 'cert-card');
+                card.style.setProperty('--i', i);
+                card.dataset.title = (rec.courseTitle || '').toLowerCase();
+
+                const top = mk('div', 'cc-top');
+                const icon = mk('span', 'cc-icon');
+                icon.innerHTML = ICO_DOC;
+                top.appendChild(icon);
+                top.appendChild(mk('span', 'cc-type', rec.certHeaderTitle || 'گواهی حضور'));
+                card.appendChild(top);
+
+                card.appendChild(mk('h3', 'cc-title', rec.courseTitle || 'عنوان دوره ثبت نشده'));
+
+                const meta = mk('div', 'cc-meta');
+                meta.appendChild(mk('span', 'chip', 'تاریخ: ' + (rec.courseDate || 'ثبت نشده')));
+                meta.appendChild(mk('span', 'chip', (rec.courseHours || '—') + ' ساعت'));
+                card.appendChild(meta);
+
+                card.appendChild(mk('div', rec.docNumber ? 'cc-letter' : 'cc-letter warn',
+                    rec.docNumber ? 'شماره نامه: ' + rec.docNumber : 'شماره نامه هنوز ثبت نشده است'));
+
+                const btn = mk('button', 'card-btn');
+                btn.type = 'button';
+                btn.innerHTML = ICO_EYE + ' ';
+                btn.appendChild(document.createTextNode('مشاهده و دریافت گواهی'));
+                btn.disabled = !rec.docNumber;
+                btn.onclick = function () { showSelectedCertificate(rec.id); };
+                card.appendChild(btn);
+
+                if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+                    card.addEventListener('mousemove', function (e) {
+                        const r = card.getBoundingClientRect();
+                        card.style.setProperty('--ry', (((e.clientX - r.left) / r.width) - .5) * 9 + 'deg');
+                        card.style.setProperty('--rx', (-(((e.clientY - r.top) / r.height) - .5)) * 9 + 'deg');
+                    });
+                    card.addEventListener('mouseleave', function () {
+                        card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg');
+                    });
+                }
+                grid.appendChild(card);
+            });
+
+            document.getElementById('userWelcomeText').textContent =
+                'همکار گرامی ' + (matchedRecords[0].fullName || '') + '، خوش آمدید';
+            const ready = matchedRecords.filter(function (r) { return r.docNumber; }).length;
+            countUp(document.getElementById('statCount'), matchedRecords.length);
+            countUp(document.getElementById('statHours'), Math.round(hours * 10) / 10);
+            const filter = document.getElementById('courseFilter');
+            filter.value = '';
+            filter.style.display = matchedRecords.length > 4 ? '' : 'none';
+            const all = document.getElementById('downloadAllBtn');
+            all.style.display = ready > 1 ? '' : 'none';
+        }
+
+        function filterCards(q) {
+            q = String(q || '').trim().toLowerCase();
+            document.querySelectorAll('#certGrid .cert-card').forEach(function (c) {
+                c.style.display = (!q || c.dataset.title.indexOf(q) !== -1) ? '' : 'none';
+            });
+        }
+
+        // ---------- پر کردن و نمایش گواهی ----------
+        function fillCertificate(rec) {
+            document.getElementById('dispCertMainTitle').innerText = rec.certHeaderTitle || 'گواهی حضور';
+            document.getElementById('dispName').innerText = rec.fullName || 'نام ثبت نشده';
+            document.getElementById('dispPersonnel').innerText = rec.personnelCode || 'ثبت نشده';
+            document.getElementById('dispCourseTitle').innerText = rec.courseTitle || 'عنوان دوره ثبت نشده';
+            document.getElementById('dispDate').innerText = rec.courseDate || 'ثبت نشده';
+            document.getElementById('dispHours').innerText = rec.courseHours || 'ثبت نشده';
+            document.getElementById('dispDocDate').innerText = rec.courseDate;
+            document.getElementById('dispDocNumber').innerText = rec.docNumber;
+
+            const qrElem = document.getElementById('qrcode');
+            qrElem.innerHTML = '';
+            try {
+                if (typeof QRCode !== 'undefined') {
+                    new QRCode(qrElem, {
+                        text: verifyUrlFor(rec), width: 70, height: 70,
+                        colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M
+                    });
+                }
+            } catch (e) { console.log('QRCode error:', e); }
+            try {
+                if (typeof JsBarcode !== 'undefined') {
+                    JsBarcode('#barcode', rec.certId || rec.docNumber, {
+                        format: 'CODE128', width: 1.3, height: 30, displayValue: true, fontSize: 10
+                    });
+                }
+            } catch (e) { console.log('JsBarcode error:', e); }
+        }
+
+        function showSelectedCertificate(id) {
+            const rec = matchedRecords.find(function (r) { return r.id === String(id); });
+            if (!rec) return;
+            const errorDiv = document.getElementById('errorMsg');
+            // بدون شماره نامه، گواهی صادر نمی‌شود (سند رسمی نباید شماره پیش‌فرض داشته باشد)
+            if (!rec.docNumber) {
+                showError('شماره نامه‌ی این گواهی هنوز ثبت نشده است. لطفاً با اداره آموزش و پرورش استثنایی تماس بگیرید.');
+                return;
+            }
+            errorDiv.innerText = '';
+            selectedRecord = rec;
+            fillCertificate(rec);
+
+            document.getElementById('portalHome').style.display = 'none';
+            document.getElementById('verificationBadge').style.display = 'block';
+            const wrap = document.getElementById('certWrapper');
+            wrap.style.display = 'flex';
+            wrap.classList.remove('reveal'); void wrap.offsetWidth; wrap.classList.add('reveal');
+            window.scrollTo({ top: 0 });
+            launchConfetti();
+        }
+
+        function copyVerifyLink() {
+            if (!selectedRecord) return;
+            const url = verifyUrlFor(selectedRecord);
+            const done = function () { showToast('لینک تأیید اصالت کپی شد.', 'success'); };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(done).catch(function () { window.prompt('لینک تأیید اصالت:', url); });
+            } else {
+                window.prompt('لینک تأیید اصالت:', url);
+            }
+        }
+
+        // ---------- گرفتن تصویر گواهی (مشترک بین PNG، PDF و دانلود یک‌جا) ----------
+        function imp(el, props) {
+            if (!el) return;
+            Object.keys(props).forEach(function (k) { el.style.setProperty(k, props[k], 'important'); });
+        }
+
+        function fixClone(clonedDoc) {
+            // نسخه‌ی کلون‌شده انیمیشن‌ها را از صفر شروع می‌کند و گواهی کمرنگ ثبت می‌شود؛ انیمیشن‌ها را خاموش می‌کنیم
+            const noAnim = clonedDoc.createElement('style');
+            noAnim.textContent = '*, *::before, *::after { animation: none !important; transition: none !important; }';
+            clonedDoc.head.appendChild(noAnim);
+
+            imp(clonedDoc.querySelector('.header-center'), {
+                'position': 'absolute', 'top': '20px', 'left': '0', 'right': '0', 'width': 'auto',
+                'transform': 'none', 'text-align': 'center', 'margin': '0'
+            });
+            imp(clonedDoc.querySelector('.header-center .bismillah'), {
+                'display': 'block', 'width': '100%', 'text-align': 'center', 'margin': '0 auto'
+            });
+            imp(clonedDoc.querySelector('.header-content > .header-meta'), {
+                'width': '170px', 'padding': '4px 7px', 'font-size': '17px', 'line-height': '1.45'
+            });
+            // حفظ نسبت ابعاد لوگو در خروجی
+            const lastBox = clonedDoc.querySelector('.header-content > .header-logo-box:last-of-type');
+            clonedDoc.querySelectorAll('.header-content > .header-logo-box .header-logo').forEach(function (img) {
+                const isRight = img.closest('.header-logo-box') === lastBox;
+                const maxSide = isRight ? 108 : 118;
+                const nw = img.naturalWidth || img.width || maxSide;
+                const nh = img.naturalHeight || img.height || maxSide;
+                const ratio = nw / nh;
+                let w = maxSide, h = maxSide;
+                if (ratio >= 1) h = maxSide / ratio; else w = maxSide * ratio;
+                imp(img, {
+                    'width': w + 'px', 'height': h + 'px', 'min-width': '0', 'min-height': '0',
+                    'max-width': maxSide + 'px', 'max-height': maxSide + 'px',
+                    'object-fit': 'contain', 'flex-shrink': '0'
+                });
+            });
+            imp(clonedDoc.getElementById('signatureImg'), {
+                'height': '180px', 'max-height': '180px', 'max-width': '440px', 'object-fit': 'contain'
+            });
+            imp(clonedDoc.getElementById('sealImg'), {
+                'width': '108px', 'height': '108px', 'min-width': '108px', 'min-height': '108px',
+                'max-width': '108px', 'max-height': '108px', 'object-fit': 'contain',
+                'position': 'absolute', 'left': '0', 'top': '50%',
+                'transform': 'translateY(-50%)', 'margin': '0'
+            });
+        }
+
+        function captureCert() {
+            const el = document.getElementById('certificate');
+            const oldTransform = el.style.transform, oldMargin = el.style.marginBottom;
+            el.style.transform = 'none';
+            el.style.marginBottom = '0';
+            const restore = function () { el.style.transform = oldTransform; el.style.marginBottom = oldMargin; };
+            return html2canvas(el, {
+                scale: 2, useCORS: true, logging: false,
+                windowWidth: Math.max(document.documentElement.clientWidth, 1000),
+                onclone: fixClone
+            }).then(function (canvas) { restore(); return canvas; },
+                    function (err) { restore(); throw err; });
+        }
+
+        function downloadAsImage() {
+            if (typeof html2canvas === 'undefined') {
+                showToast('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. چند لحظه بعد دوباره تلاش کنید.', 'error');
+                return;
+            }
+            showToast('در حال آماده‌سازی فایل…', 'info');
+            captureCert().then(function (canvas) {
+                const link = document.createElement('a');
+                link.download = certFileName() + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast('دانلود تصویر آغاز شد.', 'success');
+            }).catch(function (err) {
+                console.error(err);
+                showToast('خطا در ساخت فایل. لطفاً دوباره تلاش کنید.', 'error');
+            });
+        }
+
+        function downloadAsPDF() {
+            if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+                showToast('کتابخانه‌های PDF هنوز بارگذاری نشده‌اند. چند لحظه بعد دوباره تلاش کنید.', 'error');
+                return;
+            }
+            showToast('در حال آماده‌سازی فایل…', 'info');
+            captureCert().then(function (canvas) {
+                const jsPDF = window.jspdf.jsPDF;
+                const pdf = new jsPDF('l', 'mm', 'a4');
+                pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0,
+                    pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+                pdf.save(certFileName() + '.pdf');
+                showToast('دانلود فایل PDF آغاز شد.', 'success');
+            }).catch(function (err) {
+                console.error(err);
+                showToast('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر» استفاده کنید.', 'error');
+            });
+        }
+
+        // ---------- دانلود همه‌ی گواهی‌ها در یک PDF ----------
+        function setProgress(done, total, text) {
+            document.getElementById('progressText').textContent = text;
+            document.getElementById('progressFill').style.width = Math.round(done / total * 100) + '%';
+        }
+
+        function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+        async function downloadAllCertificates() {
+            if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+                showToast('کتابخانه‌های PDF هنوز بارگذاری نشده‌اند. چند لحظه بعد دوباره تلاش کنید.', 'error');
+                return;
+            }
+            const recs = matchedRecords.filter(function (r) { return r.docNumber; });
+            if (!recs.length) { showToast('گواهی قابل دانلودی وجود ندارد.', 'error'); return; }
+
+            const overlay = document.getElementById('progressOverlay');
+            const home = document.getElementById('portalHome');
+            const wrap = document.getElementById('certWrapper');
+            const badge = document.getElementById('verificationBadge');
+            const prevSelected = selectedRecord;
+            overlay.classList.add('show');
+            setProgress(0, recs.length, 'در حال آماده‌سازی…');
+            home.style.display = 'none';
+            badge.style.display = 'none';
+            wrap.style.display = 'flex';
+            wrap.classList.remove('reveal');
+            window.scrollTo({ top: 0 });
+
+            try {
+                const jsPDF = window.jspdf.jsPDF;
+                const pdf = new jsPDF('l', 'mm', 'a4');
+                const W = pdf.internal.pageSize.getWidth(), H = pdf.internal.pageSize.getHeight();
+                for (let i = 0; i < recs.length; i++) {
+                    setProgress(i, recs.length, 'ساخت گواهی ' + (i + 1) + ' از ' + recs.length);
+                    selectedRecord = recs[i];
+                    fillCertificate(recs[i]);
+                    await wait(220); // فرصت برای رسم QR و بارکد
+                    const canvas = await captureCert();
+                    if (i > 0) pdf.addPage();
+                    pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, W, H);
+                }
+                setProgress(recs.length, recs.length, 'در حال ذخیره‌سازی فایل…');
+                pdf.save('گواهی‌های_' + recs[0].fullName.replace(/[\\/:*?"<>|\s]+/g, '_') + '.pdf');
+                const skipped = matchedRecords.length - recs.length;
+                showToast(skipped ? 'فایل ساخته شد؛ ' + skipped + ' گواهی بدون شماره نامه کنار گذاشته شد.' : 'فایل PDF همه‌ی گواهی‌ها آماده شد.', 'success');
+            } catch (err) {
+                console.error(err);
+                showToast('خطا در ساخت فایل. لطفاً دوباره تلاش کنید.', 'error');
+            } finally {
+                selectedRecord = prevSelected;
+                wrap.style.display = 'none';
+                home.style.display = 'flex';
+                overlay.classList.remove('show');
+            }
         }
 
     </script>
