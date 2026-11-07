@@ -1378,6 +1378,61 @@
         #barcode { margin: 0 auto !important; }
         .verify-hint { display: block; width: 100%; text-align: center; }
 
+        /* ---------- لوگوی سربرگ (نسخه‌ی نهایی): حلقه‌ی طلایی رسمی که ترسیم می‌شود ---------- */
+        .header-logo-badge::before, .header-logo-badge::after { content: none !important; animation: none !important; }
+        .header-logo-badge { padding: 12px 26px; margin: 0 auto 4px !important; }
+        .logo-ring { position: absolute; left: 50%; top: 50%; width: 124px; height: 124px; margin: -62px 0 0 -62px; z-index: 0; pointer-events: none; transform: rotate(-90deg); }
+        .logo-ring circle { fill: none; stroke-linecap: round; }
+        .lr-outer { stroke: #d9b45a; stroke-width: 1.6; stroke-dasharray: 365; animation: ringDraw 1.6s cubic-bezier(.5,.1,.2,1) .1s backwards; }
+        .lr-inner { stroke: rgba(255,255,255,.45); stroke-width: .8; stroke-dasharray: 333; animation: ringDraw2 1.6s cubic-bezier(.5,.1,.2,1) .3s backwards; }
+        @keyframes ringDraw  { from { stroke-dashoffset: 365; } to { stroke-dashoffset: 0; } }
+        @keyframes ringDraw2 { from { stroke-dashoffset: 333; } to { stroke-dashoffset: 0; } }
+        .header-logo-badge img { animation: logoFade 1s ease .7s backwards !important; }
+        @keyframes logoFade {
+            from { opacity: 0; filter: brightness(0) invert(1); }
+            to   { opacity: 1; filter: brightness(0) invert(1) drop-shadow(0 4px 14px rgba(0,0,0,.28)); }
+        }
+        @media print { .logo-ring { display: none; } }
+
+        /* ---------- لوگوی سربرگ (نهایی): ظهور ساده + یک عبور نور طلایی روی خود لوگو؛ شکل لوگو بدون تغییر ---------- */
+        .logo-ring { display: none !important; }
+        .header-logo-badge { padding: 0 !important; margin: 0 auto 6px !important; }
+        .header-logo-badge img { display: block; animation: logoFade .9s ease .1s backwards !important; }
+        .header-logo-badge::after {
+            content: "" !important; position: absolute; inset: 0; width: auto !important; height: auto !important; transform: none !important; z-index: 2; pointer-events: none;
+            background: linear-gradient(105deg, rgba(217,180,90,0) 38%, rgba(240,205,120,.95) 50%, rgba(217,180,90,0) 62%) no-repeat;
+            background-size: 260% 100%; background-position: 130% 0;
+            -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
+            animation: logoShine 1.5s ease .9s backwards !important;
+        }
+        @keyframes logoShine { from { background-position: 130% 0; } to { background-position: -30% 0; } }
+        @media print { .header-logo-badge::after { display: none; } }
+
+        /* ---------- لوگوی سربرگ (نهایی ۲): موج‌های ظریف که از پشت لوگو پخش می‌شوند؛ خود لوگو دست‌نخورده ---------- */
+        .header-logo-badge::before, .header-logo-badge::after {
+            content: "" !important; position: absolute !important; left: 50% !important; top: 50% !important; right: auto !important; bottom: auto !important;
+            width: 130px !important; height: 130px !important; margin: -65px 0 0 -65px !important; border-radius: 50%;
+            background: none !important; -webkit-mask: none !important; mask: none !important;
+            border: 2px solid rgba(255,255,255,.8); box-shadow: none !important;
+            transform: scale(.55) !important; opacity: 0; z-index: 0 !important; pointer-events: none;
+        }
+        .header-logo-badge::before { animation: logoWave 2.6s cubic-bezier(.2,.6,.3,1) .35s backwards !important; }
+        .header-logo-badge::after  { border-color: rgba(217,180,90,.9); animation: logoWave 2.6s cubic-bezier(.2,.6,.3,1) .95s backwards !important; }
+        @keyframes logoWave {
+            0%   { opacity: 0;  transform: scale(.55); }
+            18%  { opacity: .9; }
+            100% { opacity: 0;  transform: scale(1.65); }
+        }
+        .header-logo-badge img { animation: logoFade .9s ease .1s backwards !important; position: relative; z-index: 1; }
+
+        /* ---------- لوگوی سربرگ (نهایی ۳): همان ظهور نرمِ متن نستعلیق (محو + بالا آمدن + شفاف شدن از حالت تار) ---------- */
+        .header-logo-badge::before, .header-logo-badge::after { content: none !important; animation: none !important; display: none !important; }
+        .header-logo-badge img { animation: logoWord .8s var(--ease) .1s backwards !important; }
+        @keyframes logoWord {
+            from { opacity: 0; transform: translateY(16px); filter: brightness(0) invert(1) blur(7px); }
+            to   { opacity: 1; transform: none; filter: brightness(0) invert(1) drop-shadow(0 4px 14px rgba(0,0,0,.28)); }
+        }
+
 </style>
 </head>
 <body>
@@ -1797,6 +1852,7 @@
             const headerLogo = document.getElementById('headerLogo');
             const watermark = document.getElementById('certWatermark');
             if (headerLogo) headerLogo.src = logoSrc;
+            if (headerLogo && headerLogo.parentNode) headerLogo.parentNode.style.setProperty('--logo', 'url("' + logoSrc + '")');
             if (watermark) watermark.src = logoSrc;
             try {
                 const y = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric' }).format(new Date());
