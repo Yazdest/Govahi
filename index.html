@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102a56">
+    <meta name="robots" content="noindex, nofollow">
     <title>سامانه جامع گواهی‌نامه‌ها - اداره آموزش و پرورش استثنایی استان یزد</title>
     <!-- بارگذاری کتابخانه‌ها -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
@@ -882,13 +884,237 @@
         @media print {
             .header-center { left: 0 !important; right: 0 !important; transform: none !important; }
         }
+
+        /* ============================================================
+           ارتقای ظاهر و انیمیشن (لایه‌ی نهایی؛ ساختار گواهی تغییر نکرده)
+           ============================================================ */
+        :root {
+            --navy: #102a56;
+            --blue: #174ea6;
+            --blue-soft: #eaf1fb;
+            --line: #d2e0f2;
+            --ease: cubic-bezier(.22,.8,.3,1);
+        }
+        html { scroll-behavior: smooth; }
+        .ico { width: 1.15em; height: 1.15em; flex: 0 0 auto; vertical-align: -0.2em; }
+        .ico-lg { width: 30px; height: 30px; color: var(--blue); }
+
+        /* ---------- ورود تدریجی عناصر صفحه ---------- */
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: none; }
+        }
+        @keyframes popIn {
+            0%   { opacity: 0; transform: scale(.6); }
+            70%  { transform: scale(1.08); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .portal-header { animation: riseIn .7s var(--ease) both; }
+        .stat-card     { animation: riseIn .7s var(--ease) .12s both; }
+        .search-box    { animation: riseIn .7s var(--ease) .24s both; }
+        .guide-box     { animation: riseIn .7s var(--ease) .36s both; }
+        .portal-footer { animation: riseIn .7s var(--ease) .5s both; }
+        .step-item     { animation: riseIn .6s var(--ease) both; }
+        .step-item:nth-child(1) { animation-delay: .55s; }
+        .step-item:nth-child(2) { animation-delay: .70s; }
+        .step-item:nth-child(3) { animation-delay: .85s; }
+        .step-number   { animation: popIn .5s var(--ease) both; }
+        .step-item:nth-child(1) .step-number { animation-delay: .65s; }
+        .step-item:nth-child(2) .step-number { animation-delay: .80s; }
+        .step-item:nth-child(3) .step-number { animation-delay: .95s; }
+
+        /* ---------- سربرگ: نشان لوگو و درخشش ملایم ---------- */
+        .portal-header > * { position: relative; z-index: 1; }
+        .portal-header::after {
+            content: ""; position: absolute; top: 0; bottom: 0; width: 38%; left: -45%;
+            background: linear-gradient(100deg, transparent, rgba(255,255,255,.13), transparent);
+            transform: skewX(-18deg); animation: sheen 7s ease-in-out 1.2s infinite; z-index: 0;
+        }
+        @keyframes sheen { 0% { left: -45%; } 55%, 100% { left: 125%; } }
+        .header-logo-badge {
+            width: 92px; height: 92px; margin: 0 auto 12px; border-radius: 50%;
+            background: #fff; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 0 5px rgba(255,255,255,.18), 0 10px 24px rgba(0,0,0,.25);
+            animation: popIn .7s var(--ease) .1s both, ring 3.6s ease-in-out 1.2s infinite;
+        }
+        .header-logo-badge img { width: 66px; height: 66px; object-fit: contain; }
+        @keyframes ring {
+            0%, 100% { box-shadow: 0 0 0 5px rgba(255,255,255,.18), 0 10px 24px rgba(0,0,0,.25); }
+            50%      { box-shadow: 0 0 0 11px rgba(255,255,255,.07), 0 10px 24px rgba(0,0,0,.25); }
+        }
+
+        /* ---------- کارت‌ها و فرم ---------- */
+        .stat-card { transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(16,42,86,.12); }
+        .stat-card .stat-icon { display: flex; justify-content: center; margin-bottom: 6px; }
+        .search-box input, .search-box select {
+            transition: border-color .2s, box-shadow .2s, transform .2s;
+        }
+        .search-box input:focus, .search-box select:focus {
+            border-color: var(--blue); box-shadow: 0 0 0 4px rgba(23,78,166,.14);
+        }
+        #nationalCodeStep, #courseSelectionStep { animation: riseIn .45s var(--ease) both; }
+
+        /* ---------- دکمه‌ها ---------- */
+        .search-box button, .btn-primary, .btn-success, .btn-secondary, .btn-ghost {
+            display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+            min-height: 48px; position: relative; overflow: hidden;
+            transition: transform .18s var(--ease), box-shadow .2s, background-color .2s, opacity .2s;
+        }
+        .search-box button:hover, .btn-primary:hover, .btn-success:hover, .btn-secondary:hover, .btn-ghost:hover {
+            transform: translateY(-2px);
+        }
+        .search-box button:active, .btn-primary:active, .btn-success:active, .btn-secondary:active, .btn-ghost:active {
+            transform: translateY(0) scale(.98);
+        }
+        .search-box button:disabled { opacity: .7; cursor: wait; transform: none; }
+        .search-box button:focus-visible, .btn-primary:focus-visible, .btn-success:focus-visible,
+        .btn-secondary:focus-visible, .btn-ghost:focus-visible, .btn-retry:focus-visible {
+            outline: 3px solid rgba(23,78,166,.45); outline-offset: 3px;
+        }
+        .btn-ghost {
+            padding: 12px 22px; background: #fff; color: var(--blue); border: 1.5px solid #9dbbe4;
+            border-radius: 8px; font-family: 'B Titr', Tahoma; font-size: 18px; cursor: pointer;
+        }
+        .btn-ghost:hover { background: var(--blue-soft); }
+        .search-box .btn-retry {
+            min-height: 0; padding: 7px 20px; margin-top: 10px; font-size: 16px;
+            background: #fff; color: #b91c1c; border: 1.5px solid #fca5a5; box-shadow: none;
+        }
+        .search-box .btn-retry:hover { background: #fef2f2; }
+        .error-msg { min-height: 0; }
+        .error-msg.shake { animation: shake .45s ease; }
+        @keyframes shake {
+            0%, 100% { transform: none; } 20% { transform: translateX(-7px); }
+            40% { transform: translateX(7px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
+        }
+
+        /* ---------- نوار اعتبار و ظاهر گواهی ---------- */
+        .verification-badge {
+            display: none; align-items: center; justify-content: center; gap: 10px;
+            animation: slideDown .6s var(--ease) both;
+        }
+        .verification-badge[style*="block"] { display: flex !important; }
+        .ico-ok { width: 26px; height: 26px; color: #059669; flex: 0 0 auto; }
+        .ico-ok circle { stroke-dasharray: 70; stroke-dashoffset: 70; animation: draw .8s ease .2s forwards; }
+        .ico-ok path   { stroke-dasharray: 20; stroke-dashoffset: 20; animation: draw .5s ease .8s forwards; }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+
+        .certificate-wrapper { animation: riseIn .7s var(--ease) both; }
+        .certificate-container { animation: certFade .9s ease both; }
+        @keyframes certFade { from { opacity: 0; } to { opacity: 1; } }
+        .action-btns .btn-primary, .action-btns .btn-success, .action-btns .btn-secondary, .action-btns .btn-ghost {
+            animation: riseIn .5s var(--ease) both;
+        }
+        .action-btns > *:nth-child(1) { animation-delay: .5s; }
+        .action-btns > *:nth-child(2) { animation-delay: .6s; }
+        .action-btns > *:nth-child(3) { animation-delay: .7s; }
+        .action-btns > *:nth-child(4) { animation-delay: .8s; }
+
+        /* واترمارک لوگو و راهنمای QR روی گواهی */
+        .cert-watermark {
+            position: absolute; top: 50%; left: 50%; width: 330px; height: 330px;
+            margin: -165px 0 0 -165px; object-fit: contain; opacity: .055;
+            z-index: 0; pointer-events: none;
+        }
+        .verify-hint {
+            font-family: 'B Nazanin', Tahoma, sans-serif; font-size: 11px; line-height: 1.2;
+            color: #4b5563; margin-top: 1px; white-space: nowrap;
+        }
+        .participant-name { font-size: 28px !important; }
+
+        /* ---------- صفحه تأیید اصالت ---------- */
+        .verify-panel { display: none; width: 100%; max-width: 620px; justify-content: center; animation: riseIn .6s var(--ease) both; }
+        .verify-card {
+            width: 100%; background: #fff; border: 1px solid var(--line); border-radius: 16px;
+            box-shadow: 0 14px 36px rgba(16,42,86,.12); padding: 34px 26px 28px; text-align: center;
+        }
+        .verify-loading p { font-size: 20px; color: #4b5563; margin: 6px 0 22px; }
+        .spin-lg {
+            display: block; width: 40px; height: 40px; margin: 8px auto 10px; border-radius: 50%;
+            border: 4px solid #dbeafe; border-top-color: var(--blue); animation: spin .8s linear infinite;
+        }
+        .verify-icon { width: 84px; height: 84px; margin: 0 auto 10px; }
+        .verify-icon svg { width: 100%; height: 100%; fill: none; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .verify-icon .v-circle { stroke-dasharray: 150; stroke-dashoffset: 150; animation: draw 1s ease forwards; }
+        .verify-icon .v-mark   { stroke-dasharray: 50;  stroke-dashoffset: 50;  animation: draw .6s ease .7s forwards; }
+        .is-ok  .verify-icon svg { stroke: #059669; }
+        .is-bad .verify-icon svg { stroke: #dc2626; }
+        .is-warn .verify-icon svg { stroke: #d97706; }
+        .verify-card h2 { font-family: 'B Titr', Tahoma; font-size: 28px; margin: 4px 0 6px; }
+        .is-ok h2 { color: #047857; } .is-bad h2 { color: #b91c1c; } .is-warn h2 { color: #b45309; }
+        .verify-card #verifyDesc { font-size: 18px; color: #4b5563; line-height: 1.9; margin: 0 0 18px; }
+        .verify-details { margin: 0 0 22px; text-align: right; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+        .verify-details > div { display: flex; justify-content: space-between; gap: 14px; padding: 11px 16px; border-bottom: 1px solid #e6eef9; }
+        .verify-details > div:nth-child(odd) { background: #f6f9fd; }
+        .verify-details > div:last-child { border-bottom: 0; }
+        .verify-details dt { color: #6b7280; font-size: 16px; white-space: nowrap; }
+        .verify-details dd { margin: 0; font-family: 'B Titr', Tahoma; color: var(--navy); font-size: 17px; text-align: left; }
+
+        /* ---------- اعلان (Toast) ---------- */
+        .toast {
+            position: fixed; left: 50%; bottom: 26px; z-index: 50; min-width: 220px; max-width: 90vw;
+            padding: 12px 22px; border-radius: 10px; color: #fff; font-size: 17px; text-align: center;
+            background: var(--navy); box-shadow: 0 10px 28px rgba(0,0,0,.25);
+            opacity: 0; transform: translate(-50%, 24px); pointer-events: none;
+            transition: opacity .3s ease, transform .35s var(--ease);
+        }
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
+        .toast.success { background: #047857; } .toast.error { background: #b91c1c; }
+
+        @media (max-width: 600px) {
+            .header-logo-badge { width: 78px; height: 78px; }
+            .header-logo-badge img { width: 56px; height: 56px; }
+            .verify-card { padding: 28px 16px 22px; }
+            .verify-card h2 { font-size: 24px; }
+            .verify-details > div { flex-direction: column; gap: 2px; }
+            .verify-details dd { text-align: right; }
+        }
+
+        /* ---------- چاپ: فقط خود گواهی ---------- */
+        @media print {
+            .verify-panel, .toast, .header-logo-badge { display: none !important; }
+            .certificate-wrapper, .certificate-container { animation: none !important; }
+        }
+
+        /* ---------- احترام به تنظیم «کاهش حرکت» ---------- */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+        }
+
+        /* ---------- تنظیمات نهایی ---------- */
+        html, body { overflow-x: hidden; }
+        .portal-header p { font-size: 46px !important; margin-top: 0 !important; line-height: 1.8 !important; }
+        .cert-watermark { opacity: .04; }
+        #vId { font-family: Consolas, 'Courier New', monospace !important; letter-spacing: 1px; font-size: 16px !important; }
+        @media (max-width: 600px) { .portal-header p { font-size: 34px !important; } }
+        @media print { .verification-badge, .verification-badge[style*="block"] { display: none !important; } }
+
+        /* لوگوی سفید مستقیم روی زمینه‌ی آبی سربرگ (بدون قاب دایره‌ای) */
+        .header-logo-badge {
+            width: auto; height: auto; background: transparent; border-radius: 0; box-shadow: none;
+            margin: 0 auto 6px; animation: popIn .7s var(--ease) .1s both;
+        }
+        .header-logo-badge img {
+            width: 128px; height: auto; max-height: 150px; object-fit: contain;
+            filter: brightness(0) invert(1) drop-shadow(0 4px 14px rgba(0,0,0,.28));
+            animation: logoGlow 4s ease-in-out 1.2s infinite;
+        }
+        @keyframes logoGlow {
+            0%, 100% { filter: brightness(0) invert(1) drop-shadow(0 4px 14px rgba(0,0,0,.28)); }
+            50%      { filter: brightness(0) invert(1) drop-shadow(0 0 16px rgba(255,255,255,.45)); }
+        }
+        @media (max-width: 600px) { .header-logo-badge img { width: 104px; } }
+
 </style>
 </head>
 <body>
 
     <!-- نوار اعتبارسنجی آنلاین -->
     <div id="verificationBadge" class="verification-badge">
-        ✅ اصالت این گواهی‌نامه توسط اداره آموزش و پرورش استثنایی استان یزد تأیید می‌شود و معتبر است.
+        <svg class="ico ico-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg>
+        اصالت این گواهی‌نامه توسط اداره آموزش و پرورش استثنایی استان یزد تأیید می‌شود و معتبر است.
     </div>
 
     <!-- بخش ورودی اصلی صفحه -->
@@ -896,6 +1122,7 @@
         
         <!-- هدر جامع -->
         <div class="portal-header">
+            <div class="header-logo-badge"><img id="headerLogo" alt="لوگوی اداره آموزش و پرورش استثنایی"></div>
             <h1>سامانه جامع صدور و اعتبارسنجی گواهی‌نامه‌ها</h1>
             <p>اداره آموزش و پرورش استثنایی استان یزد</p>
         </div>
@@ -903,7 +1130,7 @@
         <!-- کارت اصالت مدارک -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon">🛡️</div>
+                <div class="stat-icon"><svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
                 <div class="stat-title">اصالت مدارک</div>
                 <div class="stat-value">تأییدیه دیجیتال (QR)</div>
             </div>
@@ -916,10 +1143,10 @@
             <!-- گام ۱: دریافت کد ملی -->
             <div id="nationalCodeStep">
                 <p style="color:#4b5563; font-size:15px; margin-bottom:15px;">لطفاً کد ملی خود را بدون خط تیره وارد نمایید:</p>
-                <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" onkeypress="if(event.key === 'Enter') checkNationalCode()">
+                <input type="text" id="nationalCodeInput" placeholder="مثلاً: 4420843217" maxlength="10" inputmode="numeric" autocomplete="off" aria-label="کد ملی ده‌رقمی" oninput="sanitizeCodeInput(this)" onkeypress="if(event.key === 'Enter') checkNationalCode()">
                 <br>
                 <button id="searchBtn" type="button" onclick="checkNationalCode()">
-                    <span id="btnText">🔍 بررسی و استعلام دوره‌ها</span>
+                    <span id="btnText"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg> بررسی و استعلام دوره‌ها</span>
                     <span id="btnSpinner" class="spinner"></span>
                 </button>
             </div>
@@ -931,12 +1158,12 @@
                 <select id="courseSelectBox"></select>
                 <br>
                 <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                    <button type="button" class="btn-primary" onclick="showSelectedCertificate()">👁️ مشاهده و دریافت گواهی</button>
+                    <button type="button" class="btn-primary" onclick="showSelectedCertificate()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg> مشاهده و دریافت گواهی</button>
                     <button type="button" class="btn-secondary" onclick="resetSearch()">تغییر کد ملی</button>
                 </div>
             </div>
 
-            <div id="errorMsg" class="error-msg"></div>
+            <div id="errorMsg" class="error-msg" role="alert" aria-live="polite"></div>
         </div>
 
         <!-- راهنما -->
@@ -960,9 +1187,34 @@
 
     </div>
 
+    <!-- صفحه تأیید اصالت (مقصد QR گواهی) -->
+    <div class="verify-panel" id="verifyPanel">
+        <div class="verify-card">
+            <div id="verifyLoading" class="verify-loading">
+                <span class="spin-lg"></span>
+                <p>در حال بررسی اصالت گواهی…</p>
+            </div>
+            <div id="verifyResult" style="display:none">
+                <div class="verify-icon" id="verifyIcon"></div>
+                <h2 id="verifyTitle"></h2>
+                <p id="verifyDesc"></p>
+                <dl class="verify-details" id="verifyDetails">
+                    <div><dt>نام و نام خانوادگی</dt><dd id="vName"></dd></div>
+                    <div><dt>عنوان دوره / رویداد</dt><dd id="vCourse"></dd></div>
+                    <div><dt>تاریخ</dt><dd id="vDate"></dd></div>
+                    <div><dt>مدت (ساعت)</dt><dd id="vHours"></dd></div>
+                    <div><dt>شماره نامه</dt><dd id="vLetter"></dd></div>
+                    <div><dt>شناسه گواهی</dt><dd id="vId" dir="ltr"></dd></div>
+                </dl>
+            </div>
+            <button type="button" class="btn-ghost" onclick="leaveVerify()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg> بازگشت به سامانه</button>
+        </div>
+    </div>
+
     <!-- نمایش گواهی‌نامه نهایی -->
     <div class="certificate-wrapper" id="certWrapper">
         <div class="certificate-container" id="certificate">
+            <img id="certWatermark" class="cert-watermark" alt="">
             <div class="tazhib-border"></div>
             <div class="tazhib-inner"></div>
 
@@ -998,6 +1250,7 @@
                 <div class="codes-box">
                     <div id="qrcode"></div>
                     <svg id="barcode"></svg>
+                    <div class="verify-hint">برای تأیید اصالت، QR را اسکن کنید</div>
                 </div>
 
                 <div class="signature-seal-wrapper">
@@ -1011,21 +1264,27 @@
 
         <div class="action-container">
             <div class="action-btns">
-                <button class="btn-secondary" type="button" onclick="backToCourseSelection()">📋 تغییر دوره / جستجو</button>
-                <button class="btn-primary" type="button" onclick="downloadAsImage()">📸 دانلود تصویر (PNG)</button>
-                <button class="btn-success" type="button" onclick="downloadAsPDF()">📄 دانلود فایل (PDF)</button>
+                <button class="btn-secondary" type="button" onclick="backToCourseSelection()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> تغییر دوره / جستجو</button>
+                <button class="btn-primary" type="button" onclick="downloadAsImage()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> دانلود تصویر (PNG)</button>
+                <button class="btn-success" type="button" onclick="downloadAsPDF()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg> دانلود فایل (PDF)</button>
+                <button class="btn-ghost" type="button" onclick="window.print()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> چاپ گواهی</button>
             </div>
         </div>
     </div>
 
     <!-- فوتر انتهای صفحه -->
     <div class="portal-footer">
-        کلیه حقوق این سامانه متعلق به <strong>اداره آموزش و پرورش استثنایی استان یزد</strong> می‌باشد.
+        کلیه حقوق این سامانه متعلق به <strong>اداره آموزش و پرورش استثنایی استان یزد</strong> می‌باشد.<span id="footerYear"></span>
     </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script>
         // آدرس سرویس گوگل شیت (Google Apps Script)
         const API_URL = 'https://script.google.com/macros/s/AKfycbzu66src0N4krAYR-cpWFjXcksro9qOO1HpjlBT95BlA1ZhTOgm6-OACji8ju-NjGlz/exec';
+
+        // اگر true باشد، کد ملی با الگوریتم رقم کنترل بررسی می‌شود؛ برای غیرفعال‌کردن false بگذارید
+        const STRICT_NATIONAL_CODE_CHECK = true;
 
         let matchedRecords = [];
         let selectedRecord = null;
@@ -1107,7 +1366,9 @@
                 ]),
                 docNumber: getField(d, [
                     'letter', 'docNumber', 'documentNumber', 'letterNumber', 'شماره نامه', 'شماره سند', 'شماره گواهی'
-                ])
+                ]),
+                certId: getField(d, ['certId', 'certificateId', 'شناسه گواهی']) ||
+                        (/^YZD-[0-9A-F]{10}$/i.test(String(d && d.id || '')) ? String(d.id).toUpperCase() : '')
             };
         }
 
@@ -1126,17 +1387,34 @@
                 let cleanInput = normalizeDigits(inputVal);
 
                 if (!cleanInput) {
-                    errorDiv.innerText = 'لطفاً کد ملی را وارد کنید.';
+                    showError('لطفاً کد ملی را وارد کنید.');
+                    return;
+                }
+                if (!/^\d{8,10}$/.test(cleanInput)) {
+                    showError('کد ملی باید ۱۰ رقم و فقط شامل عدد باشد.');
+                    return;
+                }
+                cleanInput = cleanInput.padStart(10, '0');
+                if (STRICT_NATIONAL_CODE_CHECK && !isValidNationalCode(cleanInput)) {
+                    showError('کد ملی واردشده معتبر نیست. لطفاً ارقام را دوباره بررسی کنید.');
                     return;
                 }
 
                 errorDiv.innerText = '';
 
-                const response = await fetch(API_URL + '?code=' + encodeURIComponent(cleanInput), {
-                    method: 'GET',
-                    cache: 'no-store',
-                    headers: { 'Accept': 'application/json' }
-                });
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), 25000);
+                let response;
+                try {
+                    response = await fetch(API_URL + '?code=' + encodeURIComponent(cleanInput), {
+                        method: 'GET',
+                        cache: 'no-store',
+                        headers: { 'Accept': 'application/json' },
+                        signal: controller.signal
+                    });
+                } finally {
+                    clearTimeout(timer);
+                }
 
                 if (!response.ok) {
                     throw new Error('API HTTP status: ' + response.status);
@@ -1160,9 +1438,9 @@
                     const apiMessage = data && typeof data === 'object'
                         ? getField(data, ['message', 'error', 'پیام', 'خطا'])
                         : '';
-                    errorDiv.innerText = apiMessage
+                    showError(apiMessage
                         ? 'پاسخ سامانه: ' + apiMessage
-                        : 'برای این کد ملی رکوردی از گوگل دریافت نشد. نام ستون‌ها و خروجی Google Apps Script را بررسی کنید.';
+                        : 'برای این کد ملی گواهی‌ای ثبت نشده است. اگر در دوره‌ای شرکت کرده‌اید، پس از چند روز دوباره مراجعه کنید یا با اداره تماس بگیرید.');
                     console.warn('هیچ رکورد قابل استفاده‌ای از API استخراج نشد. پاسخ خام:', data);
                     return;
                 }
@@ -1194,10 +1472,11 @@
                     `همکار گرامی ${matchedRecords[0].fullName || ''} خوش آمدید`;
                 document.getElementById('nationalCodeStep').style.display = 'none';
                 document.getElementById('courseSelectionStep').style.display = 'block';
+                document.getElementById('searchBox').classList.add('step-two');
 
             } catch (err) {
                 console.error(err);
-                errorDiv.innerText = 'خطا در ارتباط با سامانه. لطفاً اتصال اینترنت را بررسی کرده و دوباره تلاش کنید.';
+                showError('ارتباط با سامانه برقرار نشد. لطفاً اتصال اینترنت را بررسی کنید.', true);
             } finally {
                 btnText.style.display = 'inline';
                 btnSpinner.style.display = 'none';
@@ -1218,6 +1497,13 @@
             errorDiv.innerText = '';
             selectedRecord = matchedRecords.find(r => (r.id ? r.id === selectedId : true)) || matchedRecords[0];
 
+            // بدون شماره نامه، گواهی صادر نمی‌شود (سند رسمی نباید شماره پیش‌فرض داشته باشد)
+            if (!selectedRecord.docNumber) {
+                showError('شماره نامه‌ی این گواهی هنوز ثبت نشده است. لطفاً با اداره آموزش و پرورش استثنایی تماس بگیرید.');
+                selectedRecord = null;
+                return;
+            }
+
             document.getElementById('dispCertMainTitle').innerText = selectedRecord.certHeaderTitle || 'گواهی حضور';
             document.getElementById('dispName').innerText = selectedRecord.fullName || 'نام ثبت نشده';
             document.getElementById('dispPersonnel').innerText = selectedRecord.personnelCode || 'ثبت نشده';
@@ -1225,7 +1511,7 @@
             document.getElementById('dispDate').innerText = selectedRecord.courseDate || 'ثبت نشده';
             document.getElementById('dispHours').innerText = selectedRecord.courseHours || 'ثبت نشده';
             document.getElementById('dispDocDate').innerText = selectedRecord.courseDate;
-            document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber || '1529/ص/1404';
+            document.getElementById('dispDocNumber').innerText = selectedRecord.docNumber;
             
             document.getElementById('portalHome').style.display = 'none';
             document.getElementById('verificationBadge').style.display = 'block';
@@ -1236,7 +1522,7 @@
             try {
                 if (typeof QRCode !== 'undefined') {
                     new QRCode(qrElem, {
-                        text: window.location.href.split('?')[0] + "?code=" + selectedRecord.nationalCode,
+                        text: verifyUrlFor(selectedRecord),
                         width: 70,
                         height: 70,
                         colorDark: "#000000",
@@ -1250,7 +1536,7 @@
 
             try {
                 if (typeof JsBarcode !== 'undefined') {
-                    JsBarcode("#barcode", "YZD-" + selectedRecord.nationalCode, { 
+                    JsBarcode("#barcode", selectedRecord.certId || selectedRecord.docNumber, { 
                         format: "CODE128", 
                         width: 1.3, 
                         height: 30, 
@@ -1275,6 +1561,7 @@
             document.getElementById('portalHome').style.display = 'flex';
             document.getElementById('courseSelectionStep').style.display = 'none';
             document.getElementById('nationalCodeStep').style.display = 'block';
+            document.getElementById('searchBox').classList.remove('step-two');
             document.getElementById('nationalCodeInput').value = '';
             document.getElementById('errorMsg').innerText = '';
             matchedRecords = [];
@@ -1283,7 +1570,13 @@
         }
 
         window.onload = function() {
+            initPage();
             const urlParams = new URLSearchParams(window.location.search);
+            const verifyParam = urlParams.get('verify');
+            if (verifyParam) {
+                runVerification(verifyParam);
+                return;
+            }
             const codeParam = urlParams.get('code');
             if (codeParam) {
                 document.getElementById('nationalCodeInput').value = codeParam;
@@ -1293,8 +1586,9 @@
 
         function downloadAsImage() {
             const certElement = document.getElementById('certificate');
+            showToast('در حال آماده‌سازی فایل…', 'info');
             if (typeof html2canvas === 'undefined') {
-                alert('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. لطفاً چند لحظه صبر کنید.');
+                showToast('کتابخانه دانلود تصویر هنوز بارگذاری نشده است. چند لحظه بعد دوباره تلاش کنید.', 'error');
                 return;
             }
 
@@ -1383,20 +1677,23 @@
                 certElement.style.marginBottom = originalMargin;
 
                 const link = document.createElement('a');
-                link.download = `گواهی_${selectedRecord.fullName}_${selectedRecord.courseTitle}.png`;
+                link.download = certFileName() + '.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
+                showToast('دانلود تصویر آغاز شد.', 'success');
             }).catch(err => {
                 certElement.style.transform = originalTransform;
                 certElement.style.marginBottom = originalMargin;
                 console.error(err);
+                showToast('خطا در ساخت فایل. لطفاً دوباره تلاش کنید.', 'error');
             });
         }
 
         function downloadAsPDF() {
             const certElement = document.getElementById('certificate');
+            showToast('در حال آماده‌سازی فایل…', 'info');
             if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
-                alert('کتابخانه‌های مورد نیاز PDF هنوز از اینترنت بارگذاری نشده‌اند. لطفاً چند لحظه دیگر مجدد تلاش کنید.');
+                showToast('کتابخانه‌های PDF هنوز بارگذاری نشده‌اند. چند لحظه بعد دوباره تلاش کنید.', 'error');
                 return;
             }
 
@@ -1491,17 +1788,165 @@
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = pdf.internal.pageSize.getHeight();
                     pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    pdf.save(`گواهی_${selectedRecord.fullName}_${selectedRecord.courseTitle}.pdf`);
+                    pdf.save(certFileName() + '.pdf');
+                    showToast('دانلود فایل PDF آغاز شد.', 'success');
                 } catch (e) {
                     console.error(e);
-                    alert('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر PNG» استفاده کنید.');
+                    showToast('خطا در ساخت PDF. لطفاً از گزینه «دانلود تصویر» استفاده کنید.', 'error');
                 }
             }).catch(err => {
                 certElement.style.transform = originalTransform;
                 certElement.style.marginBottom = originalMargin;
                 console.error(err);
+                showToast('خطا در ساخت فایل. لطفاً دوباره تلاش کنید.', 'error');
             });
         }
+
+        /* ================= افزودنی‌ها: اعتبارسنجی، تأیید اصالت، اعلان‌ها ================= */
+
+        function initPage() {
+            const logoSrc = document.getElementById('logoLeft').src;
+            const headerLogo = document.getElementById('headerLogo');
+            const watermark = document.getElementById('certWatermark');
+            if (headerLogo) headerLogo.src = logoSrc;
+            if (watermark) watermark.src = logoSrc;
+            try {
+                const y = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric' }).format(new Date());
+                const fy = document.getElementById('footerYear');
+                if (fy) fy.textContent = ' © ' + y;
+            } catch (e) { /* نمایش سال اختیاری است */ }
+        }
+
+        function sanitizeCodeInput(el) {
+            el.value = normalizeDigits(el.value).replace(/\D/g, '').slice(0, 10);
+        }
+
+        // الگوریتم رقم کنترل کد ملی ایران
+        function isValidNationalCode(code) {
+            if (!/^\d{10}$/.test(code) || /^(\d)\1{9}$/.test(code)) return false;
+            let sum = 0;
+            for (let i = 0; i < 9; i++) sum += parseInt(code[i], 10) * (10 - i);
+            const r = sum % 11;
+            const check = parseInt(code[9], 10);
+            return (r < 2 && check === r) || (r >= 2 && check === 11 - r);
+        }
+
+        function showError(message, withRetry) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = message;
+            if (withRetry) {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'btn-retry';
+                b.textContent = 'تلاش مجدد';
+                b.onclick = function () { checkNationalCode(); };
+                el.appendChild(document.createElement('br'));
+                el.appendChild(b);
+            }
+            el.classList.remove('shake');
+            void el.offsetWidth;
+            el.classList.add('shake');
+        }
+
+        let toastTimer = null;
+        function showToast(message, type) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.textContent = message;
+            t.className = 'toast show ' + (type || 'info');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { t.className = 'toast ' + (type || 'info'); }, 3400);
+        }
+
+        // نام فایل دانلودی: حذف نویسه‌های غیرمجاز و کوتاه‌سازی
+        function certFileName() {
+            const raw = 'گواهی_' + (selectedRecord ? selectedRecord.fullName + '_' + selectedRecord.courseTitle : '');
+            const safe = raw.replace(/[\\/:*?"<>|\u0000-\u001f]/g, '').replace(/\s+/g, '_').slice(0, 90);
+            return safe || 'گواهی';
+        }
+
+        function verifyUrlFor(rec) {
+            const base = window.location.href.split('#')[0].split('?')[0];
+            return rec && rec.certId ? base + '?verify=' + encodeURIComponent(rec.certId) : base;
+        }
+
+        // ---------- صفحه تأیید اصالت (مقصد QR) ----------
+        const ICON_OK = '<svg viewBox="0 0 52 52" aria-hidden="true"><circle class="v-circle" cx="26" cy="26" r="23"/><path class="v-mark" d="M15 27l8 8 14-16"/></svg>';
+        const ICON_BAD = '<svg viewBox="0 0 52 52" aria-hidden="true"><circle class="v-circle" cx="26" cy="26" r="23"/><path class="v-mark" d="M18 18l16 16M34 18L18 34"/></svg>';
+        const ICON_WARN = '<svg viewBox="0 0 52 52" aria-hidden="true"><circle class="v-circle" cx="26" cy="26" r="23"/><path class="v-mark" d="M26 14v16M26 37v1"/></svg>';
+
+        async function runVerification(rawId) {
+            const id = String(rawId || '').trim().toUpperCase();
+            document.getElementById('portalHome').style.display = 'none';
+            document.getElementById('certWrapper').style.display = 'none';
+            document.getElementById('verificationBadge').style.display = 'none';
+            const panel = document.getElementById('verifyPanel');
+            panel.style.display = 'flex';
+            document.getElementById('verifyLoading').style.display = 'block';
+            document.getElementById('verifyResult').style.display = 'none';
+
+            let data = null, failed = false;
+            if (!/^YZD-[0-9A-F]{10}$/.test(id)) {
+                data = { valid: false };
+            } else {
+                const controller = new AbortController();
+                const timer = setTimeout(function () { controller.abort(); }, 25000);
+                try {
+                    const r = await fetch(API_URL + '?verify=' + encodeURIComponent(id), {
+                        cache: 'no-store', headers: { 'Accept': 'application/json' }, signal: controller.signal
+                    });
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    data = await r.json();
+                } catch (e) {
+                    console.error(e);
+                    failed = true;
+                } finally {
+                    clearTimeout(timer);
+                }
+            }
+
+            const icon = document.getElementById('verifyIcon');
+            const title = document.getElementById('verifyTitle');
+            const desc = document.getElementById('verifyDesc');
+            const details = document.getElementById('verifyDetails');
+            const result = document.getElementById('verifyResult');
+            result.className = '';
+
+            if (failed) {
+                result.classList.add('is-warn');
+                icon.innerHTML = ICON_WARN;
+                title.textContent = 'بررسی انجام نشد';
+                desc.textContent = 'ارتباط با سامانه برقرار نشد. لطفاً اتصال اینترنت را بررسی کرده و دوباره QR را اسکن کنید.';
+                details.style.display = 'none';
+            } else if (data && data.valid === true) {
+                result.classList.add('is-ok');
+                icon.innerHTML = ICON_OK;
+                title.textContent = 'این گواهی معتبر است';
+                desc.textContent = 'مشخصات زیر در سوابق اداره آموزش و پرورش استثنایی استان یزد ثبت شده است.';
+                document.getElementById('vName').textContent = data.name || '—';
+                document.getElementById('vCourse').textContent = data.course || '—';
+                document.getElementById('vDate').textContent = data.date || '—';
+                document.getElementById('vHours').textContent = data.hour || '—';
+                document.getElementById('vLetter').textContent = data.letter || '—';
+                document.getElementById('vId').textContent = data.id || id;
+                details.style.display = '';
+            } else {
+                result.classList.add('is-bad');
+                icon.innerHTML = ICON_BAD;
+                title.textContent = 'گواهی یافت نشد';
+                desc.textContent = 'شناسه‌ی این گواهی در سوابق ثبت‌شده وجود ندارد. ممکن است گواهی ناقص یا دستکاری‌شده باشد؛ لطفاً با اداره تماس بگیرید.';
+                details.style.display = 'none';
+            }
+            document.getElementById('verifyLoading').style.display = 'none';
+            result.style.display = 'block';
+        }
+
+        function leaveVerify() {
+            document.getElementById('verifyPanel').style.display = 'none';
+            document.getElementById('portalHome').style.display = 'flex';
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
     </script>
 </body>
 </html>
