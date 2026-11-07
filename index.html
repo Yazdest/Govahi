@@ -1603,6 +1603,10 @@
                 logging: false,
                 windowWidth: Math.max(document.documentElement.clientWidth, 1000),
                 onclone: clonedDoc => {
+                    // نسخه‌ی کلون‌شده انیمیشن‌ها را از صفر شروع می‌کند و گواهی کمرنگ ثبت می‌شود؛ انیمیشن‌ها را خاموش می‌کنیم
+                    const noAnim = clonedDoc.createElement('style');
+                    noAnim.textContent = '*, *::before, *::after { animation: none !important; transition: none !important; }';
+                    clonedDoc.head.appendChild(noAnim);
                     const clonedHeaderCenter = clonedDoc.querySelector('.header-center');
                     if (clonedHeaderCenter) {
                         clonedHeaderCenter.style.setProperty('position', 'absolute', 'important');
@@ -1708,6 +1712,10 @@
                 logging: false,
                 windowWidth: Math.max(document.documentElement.clientWidth, 1000),
                 onclone: clonedDoc => {
+                    // نسخه‌ی کلون‌شده انیمیشن‌ها را از صفر شروع می‌کند و گواهی کمرنگ ثبت می‌شود؛ انیمیشن‌ها را خاموش می‌کنیم
+                    const noAnim = clonedDoc.createElement('style');
+                    noAnim.textContent = '*, *::before, *::after { animation: none !important; transition: none !important; }';
+                    clonedDoc.head.appendChild(noAnim);
                     const clonedHeaderCenter = clonedDoc.querySelector('.header-center');
                     if (clonedHeaderCenter) {
                         clonedHeaderCenter.style.setProperty('position', 'absolute', 'important');
