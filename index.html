@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <meta name="theme-color" content="#102a56">
     <meta name="robots" content="noindex, nofollow">
     <title>سامانه جامع گواهی‌نامه‌ها - اداره آموزش و پرورش استثنایی استان یزد</title>
@@ -1803,6 +1803,10 @@
             html body #portalHome .qr-note { padding: 7px 12px !important; }
             html body #portalHome .trust-strip { margin-bottom: 6px !important; }
         }
+
+        /* ===== هنگام باز بودن صفحه‌کلید، دکمه‌ی استعلام قابل دیدن بماند ===== */
+        #searchBtn { scroll-margin-bottom: 18px; }
+        html body { padding-bottom: calc(6px + var(--kb, 0px)) !important; }
     </style>
 </head>
 <body>
@@ -3051,6 +3055,36 @@
             }
             show();
             setInterval(function () { cur = (cur + 1) % items.length; show(); }, 4500);
+        })();
+
+        // وقتی کاربر کد ملی را تایپ می‌کند و صفحه‌کلید باز است، دکمه‌ی استعلام را بدون بستن صفحه‌کلید در دید نگه می‌دارد
+        (function () {
+            const input = document.getElementById('nationalCodeInput');
+            const btn = document.getElementById('searchBtn');
+            if (!input || !btn) return;
+            const vv = window.visualViewport;
+            function updateKb() {
+                const kb = vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
+                document.documentElement.style.setProperty('--kb', kb + 'px');
+            }
+            function reveal() {
+                if (document.activeElement !== input) return;
+                updateKb();
+                const r = btn.getBoundingClientRect();
+                const top = vv ? vv.offsetTop : 0;
+                const bottom = top + (vv ? vv.height : window.innerHeight) - 14;
+                if (r.bottom > bottom || r.top < top) {
+                    btn.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                }
+            }
+            input.addEventListener('focus', function () {
+                setTimeout(reveal, 120);
+                setTimeout(reveal, 400);
+                setTimeout(reveal, 800);
+            });
+            input.addEventListener('blur', function () { setTimeout(updateKb, 250); });
+            if (vv) vv.addEventListener('resize', function () { updateKb(); reveal(); });
+            window.addEventListener('resize', reveal);
         })();
     </script>
 </body>
