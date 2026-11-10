@@ -2,7 +2,37 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual">
+    <script>
+    /* ارتفاع مرجع صفحه را هنگام باز شدن صفحه‌کلید ثابت نگه می‌دارد تا هیچ‌چیز کوچک نشود */
+    (function () {
+        var de = document.documentElement, base = 0, baseW = 0, t;
+        function typing() {
+            var a = document.activeElement;
+            return !!a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName);
+        }
+        function apply(h) {
+            base = h;
+            de.style.setProperty("--vh", (h / 100) + "px");
+            de.classList.toggle("vh-720", h >= 720);
+            de.classList.toggle("vh-800", h >= 800);
+            de.classList.toggle("vh-short", h <= 600);
+        }
+        function sync() {
+            var h = window.innerHeight, w = window.innerWidth;
+            if (!h) return;
+            if (!base || w !== baseW) { baseW = w; apply(h); return; }   /* بار اول یا چرخش گوشی */
+            if (h >= base) { apply(h); return; }                          /* بزرگ‌تر شد (بسته شدن کیبورد / مخفی شدن نوار آدرس) */
+            if (typing()) return;                                         /* کوچک‌تر شد چون صفحه‌کلید باز است: نادیده بگیر */
+            clearTimeout(t);
+            t = setTimeout(function () { if (!typing()) apply(window.innerHeight); }, 400);
+        }
+        sync();
+        window.addEventListener("resize", sync);
+        window.addEventListener("load", sync);
+        document.addEventListener("focusin", function () { clearTimeout(t); });
+    })();
+    </script>
     <meta name="theme-color" content="#102a56">
     <meta name="robots" content="noindex, nofollow">
     <title>سامانه جامع گواهی‌نامه‌ها - اداره آموزش و پرورش استثنایی استان یزد</title>
@@ -1722,7 +1752,7 @@
         @media (max-width: 600px) {
             :root { --vh: 1vh; --c: 42px; --sc: .84; --logoH: clamp(48px, calc(var(--vh) * 9.5), 88px); }
             @supports (height: 100dvh) { :root { --vh: 1dvh; } }
-            @media (min-height: 720px) { :root { --c: 50px; --sc: 1; } }
+            html.vh-720 { --c: 50px; --sc: 1; }
 
             html body { padding: 8px 10px 6px !important; min-height: calc(var(--vh) * 100) !important; }
             html body #portalHome { gap: clamp(5px, calc(var(--vh) * 1.3), 14px) !important; min-height: calc(var(--vh) * 100 - 52px); justify-content: space-between; }
@@ -1756,22 +1786,22 @@
         }
 
         /* گوشی‌های بلندتر: اندازه‌ها کمی بزرگ‌تر تا فضای خالی زیاد نماند */
-        @media (max-width: 600px) and (min-height: 800px) {
-            :root { --c: 54px; --sc: 1.08; }
-            html body #portalHome .portal-header { padding: 18px 14px 14px !important; }
-            html body #portalHome .search-box { padding: 26px 16px 22px !important; }
-            html body #portalHome .search-box h2 { font-size: 24px !important; margin-bottom: 8px !important; }
-            html body #portalHome .search-box > #nationalCodeStep > p { font-size: 17px !important; margin-bottom: 14px !important; }
-            html body #portalHome .code-field { margin-bottom: 18px !important; }
-            html body #portalHome #nationalCodeInput { height: 66px !important; font-size: 22px !important; }
-            html body #portalHome #searchBtn { min-height: 64px !important; font-size: 21px !important; }
-            html body #portalHome .privacy-note { font-size: 14px !important; margin-top: 12px !important; }
-            html body #portalHome .guide-box { padding: 16px 14px 12px !important; }
-            html body #portalHome .guide-box h3 { font-size: 18px !important; margin-bottom: 12px !important; }
-            html body #portalHome .qr-note { padding: 12px 14px !important; }
-            html body #portalHome .qr-note strong { font-size: 16px !important; }
-            html body #portalHome .qr-note svg { width: 36px !important; height: 36px !important; }
-            html body #portalHome .trust-strip { margin-bottom: 22px !important; }
+        @media (max-width: 600px) {
+            html.vh-800 { --c: 54px; --sc: 1.08; }
+            html:where(.vh-800) body #portalHome .portal-header { padding: 18px 14px 14px !important; }
+            html:where(.vh-800) body #portalHome .search-box { padding: 26px 16px 22px !important; }
+            html:where(.vh-800) body #portalHome .search-box h2 { font-size: 24px !important; margin-bottom: 8px !important; }
+            html:where(.vh-800) body #portalHome .search-box > #nationalCodeStep > p { font-size: 17px !important; margin-bottom: 14px !important; }
+            html:where(.vh-800) body #portalHome .code-field { margin-bottom: 18px !important; }
+            html:where(.vh-800) body #portalHome #nationalCodeInput { height: 66px !important; font-size: 22px !important; }
+            html:where(.vh-800) body #portalHome #searchBtn { min-height: 64px !important; font-size: 21px !important; }
+            html:where(.vh-800) body #portalHome .privacy-note { font-size: 14px !important; margin-top: 12px !important; }
+            html:where(.vh-800) body #portalHome .guide-box { padding: 16px 14px 12px !important; }
+            html:where(.vh-800) body #portalHome .guide-box h3 { font-size: 18px !important; margin-bottom: 12px !important; }
+            html:where(.vh-800) body #portalHome .qr-note { padding: 12px 14px !important; }
+            html:where(.vh-800) body #portalHome .qr-note strong { font-size: 16px !important; }
+            html:where(.vh-800) body #portalHome .qr-note svg { width: 36px !important; height: 36px !important; }
+            html:where(.vh-800) body #portalHome .trust-strip { margin-bottom: 22px !important; }
         }
 
         /* ===== حالت فهرست دوره‌ها (بعد از استعلام): چیدمان طبیعی و قابل اسکرول، نه تمام‌صفحه ===== */
@@ -1791,17 +1821,19 @@
         }
 
         /* گوشی‌های کم‌ارتفاع: کمی فشرده‌تر تا همچنان یک‌صفحه‌ای بماند */
-        @media (max-width: 600px) and (max-height: 600px) {
-            html body #portalHome .portal-header { padding: 9px 12px 8px !important; }
-            html body #portalHome .header-logo-badge { margin-bottom: 5px !important; }
-            html body #portalHome .search-box { padding: 12px 12px 10px !important; }
-            html body #portalHome .qr-note { padding: 7px 12px !important; }
-            html body #portalHome .trust-strip { margin-bottom: 6px !important; }
+        @media (max-width: 600px) {
+            html:where(.vh-short) body #portalHome .portal-header { padding: 9px 12px 8px !important; }
+            html:where(.vh-short) body #portalHome .header-logo-badge { margin-bottom: 5px !important; }
+            html:where(.vh-short) body #portalHome .search-box { padding: 12px 12px 10px !important; }
+            html:where(.vh-short) body #portalHome .qr-note { padding: 7px 12px !important; }
+            html:where(.vh-short) body #portalHome .trust-strip { margin-bottom: 6px !important; }
         }
 
         /* ===== هنگام باز بودن صفحه‌کلید، دکمه‌ی استعلام قابل دیدن بماند ===== */
         #searchBtn { scroll-margin-bottom: 18px; }
-        html body { padding-bottom: calc(6px + var(--kb, 0px)) !important; }
+        html body { padding-bottom: 6px !important; }
+        /* فضای اسکرول اضافه هنگام باز بودن صفحه‌کلید (بدون تغییر اندازه‌ی اجزا) */
+        html { padding-bottom: var(--kb, 0px); }
 
         /* ===== کادر کد ملی: شمارنده همیشه داخل کادر (دسکتاپ هم) + هاله‌ی سبز کم‌رنگ با ۱۰ رقم ===== */
         .search-box .code-field #nationalCodeInput { width: 100% !important; max-width: none !important; margin: 0 !important; transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease; }
@@ -3085,26 +3117,38 @@
             setInterval(function () { cur = (cur + 1) % items.length; show(); }, 2300);
         })();
 
-        // وقتی کاربر کد ملی را تایپ می‌کند و صفحه‌کلید باز است، دکمه‌ی استعلام را بدون بستن صفحه‌کلید در دید نگه می‌دارد
+        // با لمس کادر کد ملی، اندازه‌ها ثابت می‌مانند و صفحه آن‌قدر اسکرول می‌شود که دکمه‌ی استعلام بالای صفحه‌کلید دیده شود
         (function () {
             const input = document.getElementById('nationalCodeInput');
             const btn = document.getElementById('searchBtn');
             if (!input || !btn) return;
             const vv = window.visualViewport;
+            const GAP = 14;
+
+            function visibleHeight() { return vv ? vv.height * vv.scale : window.innerHeight; }
+
+            // ارتفاع صفحه‌کلید → فقط برای ایجاد فضای اسکرول (اندازه‌ی هیچ المانی تغییر نمی‌کند)
             function updateKb() {
-                const kb = vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
+                const a = document.activeElement;
+                const typing = a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA');
+                const kb = (vv && typing) ? Math.max(0, Math.round(window.innerHeight - visibleHeight())) : 0;
                 document.documentElement.style.setProperty('--kb', kb + 'px');
             }
+
             function reveal() {
                 if (document.activeElement !== input) return;
                 updateKb();
-                const r = btn.getBoundingClientRect();
                 const top = vv ? vv.offsetTop : 0;
-                const bottom = top + (vv ? vv.height : window.innerHeight) - 14;
-                if (r.bottom > bottom || r.top < top) {
-                    btn.scrollIntoView({ block: 'end', behavior: 'smooth' });
-                }
+                const bottom = top + visibleHeight() - GAP;
+                const b = btn.getBoundingClientRect();
+                const i = input.getBoundingClientRect();
+                let dy = 0;
+                if (b.bottom > bottom) dy = b.bottom - bottom;          // دکمه زیر صفحه‌کلید است → صفحه را بالا ببر
+                const maxDy = i.top - (top + GAP);                      // کادر کد ملی از بالای دید خارج نشود
+                if (dy > maxDy) dy = Math.max(0, maxDy);
+                if (dy > 1) window.scrollBy({ top: dy, behavior: 'smooth' });
             }
+
             input.addEventListener('focus', function () {
                 setTimeout(reveal, 120);
                 setTimeout(reveal, 400);
