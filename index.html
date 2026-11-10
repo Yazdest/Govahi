@@ -1807,6 +1807,15 @@
         /* ===== هنگام باز بودن صفحه‌کلید، دکمه‌ی استعلام قابل دیدن بماند ===== */
         #searchBtn { scroll-margin-bottom: 18px; }
         html body { padding-bottom: calc(6px + var(--kb, 0px)) !important; }
+
+        /* ===== کادر کد ملی: شمارنده همیشه داخل کادر (دسکتاپ هم) + هاله‌ی سبز کم‌رنگ با ۱۰ رقم ===== */
+        .search-box .code-field #nationalCodeInput { width: 100% !important; max-width: none !important; margin: 0 !important; transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease; }
+        .search-box .code-field #nationalCodeInput.is-full {
+            border-color: #6ee7b7 !important;
+            background-color: #f4fdf8 !important;
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, .16) !important;
+            animation: none !important;
+        }
     </style>
 </head>
 <body>
@@ -3032,7 +3041,7 @@
         (function () {
             const i = document.getElementById('nationalCodeInput'), c = document.getElementById('codeCount');
             if (!i || !c) return;
-            function u() { const n = i.value.length; c.textContent = n + '/10'; c.classList.toggle('full', n === 10); }
+            function u() { const n = i.value.length; c.textContent = n + '/10'; c.classList.toggle('full', n === 10); i.classList.toggle('is-full', n === 10); }
             i.addEventListener('input', u);
             document.addEventListener('click', function () { setTimeout(u, 0); });
             u();
